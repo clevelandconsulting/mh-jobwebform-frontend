@@ -1,0 +1,15 @@
+        <thead>
+         <tr>
+          <th>Deployment Date</th>
+          <th>Existing URL</th>
+          <th></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr x-ng-repeat='c in req.job.data.collateral["microsite-splash"]'>
+          <td>{{c.data.deploymentDate}}</td><td><a href='{{c.data.existingURL}}' target='_blank'>{{c.data.existingURL}}</a></td><td><a x-ng-click='req.goToMedium("microsite-splash",$index)'>Edit</a></td>
+         </tr>
+        </tbody>
+        <tfoot>
+         <tr><th colspan='3'><button x-ng-click='req.newMedium("microsite-splash")'>New Microsite/Splash</button></th></tr>
+        </tfoot>

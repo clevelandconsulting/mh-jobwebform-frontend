@@ -1,0 +1,45 @@
+  <div class='row'>
+  
+    <div class='columns small-8'>
+    
+      <div class='row'>
+       <table class='noBorder noAlternateColor minimal'>
+        <tr><th class='left'>Requestor Name:</th><td class='left'>{{req.job.requestorName}}</td></tr>
+        <tr><th class='left'>Requestor Date:</th><td class='left'>{{req.job.requestDate}}</td></tr>
+        <tr><th class='left'>Project Title:</th><td class='left'>{{req.job.title}}</td></tr>
+       </table>
+      </div>
+      
+      <div class='row' x-ng-repeat='(key, value) in req.job.mediums' x-ng-show='value'>
+       <div x-ng-show='value' class='columns small-12' >
+       
+        <h4>{{ req.keyToHeader(key) }}</h4>
+        <table x-ng-include='req.getMediumListTemplate(key)'>
+        </table>
+        
+      </div>
+     </div>
+     
+    </div>
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+  </div>
+  
+  
+  <div class='row'>
+   <div class='columns small-12'>
+    <progress-bar current-step='req.currentStep'></progress-bar>
+   </div>
+  </div>
+  
+   
+  
+  <div class='row'>
+   <div class='columns small-12'>
+    <button x-ng-click='req.submit()' class='left'>Submit</button>
+    <span class='right'>
+     <button x-ng-click='req.previous()'>&lt; Previous</button>&nbsp;<button x-ng-click='req.cancel()'>Cancel</button>
+    </span>
+   </div>
+  </div>

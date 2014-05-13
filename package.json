@@ -1,0 +1,19 @@
+{
+  "name": "McGraw Hill Job Request",
+  "title": "McGraw Hill Job Request Web Form",
+  "version": "0.0.1",
+  "private": true,
+  "author": {
+    "name": "Kevin Vile",
+    "company": "Cleveland Consulting, Inc."
+  },
+  "devDependencies": {
+    "lineman": "~0.24.10",
+    "lineman-bower": "0.0.3",
+    "lineman-angular": "~0.2.0"
+  },
+  "scripts": {
+    "start": "lineman run",
+    "test": "lineman spec-ci"
+  }
+}

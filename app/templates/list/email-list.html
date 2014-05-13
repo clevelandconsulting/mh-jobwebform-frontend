@@ -1,0 +1,16 @@
+        <thead>
+         <tr>
+          <th>Deployment Date</th>
+          <th>Campaign End Date</th>
+          <th>Email Subject</th>
+          <th></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr x-ng-repeat='c in req.job.data.collateral["email"]'>
+          <td>{{c}}</td><td></td><td></td><td><a x-ng-click='req.goToMedium("email",$index)'>Edit</a></td>
+         </tr>
+        </tbody>
+        <tfoot>
+         <tr><th colspan='4'><button x-ng-click='req.newMedium("email")'>New Email</button></th></tr>
+        </tfoot>

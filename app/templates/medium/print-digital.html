@@ -1,0 +1,125 @@
+  <form>
+   <div class='row'>
+    <div class='columns small-8'>
+    
+    
+     <div class='row'>
+      <div class='columns small-4'>
+       <label>Delivery Date</label>
+       <input type='date' x-ng-model='req.currentMedium.data.deliveryDate' />
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-5'>
+       <label>Identify Collateral Needed</label>
+       <select type='text'  x-ng-model='req.currentMedium.data.collateralNeeded' ></select>
+      </div>
+      <div class='columns small-7' x-ng-show='req.currentMedium.data.collateralNeeded=="Other"'>
+       <label>Other Details</label>
+       <input type='text' placeholder='Discipline' x-ng-model='req.currentMedium.data.collateralOtherDetails' />
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <input type='checkbox' x-ng-model='req.currentMedium.data.isRevision'/>
+       <label>This is a revision</label>
+      </div>
+     </div>
+     
+     <div class='row' x-ng-show='req.currentMedium.data.isRevision'>
+      <div class='columns small-10'>
+       <div class='panel'>
+        <h5>Fill Out Revision Details</h5>
+        <div class='row'>
+         
+         <div class='columns small-4'>
+          <label>Revision Type</label>
+          
+          <div class="row">
+           <div class='columns small-12'>
+            <input type="radio" x-ng-model="req.currentMedium.data.revisionType" name="revisionTypeJob" id="revisionTypeJob" value="job" />
+            <label for="revisionTypeJob">Job</label>
+           </div>
+          </div>
+          
+          <div class="row">
+           <div class='columns small-12'>
+            <input type="radio" x-ng-model="req.currentMedium.data.revisionType" name="revisionTypePart" id="revisionTypePart" value="part" />
+            <label for="revisionTypePart">Part</label>
+           </div>
+          </div>
+          
+         </div>
+         
+         <div class='columns small-8'>
+          <label>Enter {{req.currentMedium.revisionType}} Number</label>
+          <input type='text' x-ng-model='req.currentMedium.data.revisionNumber' />
+         </div>
+         
+        </div>
+        
+       </div> 
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <x-yes-no x-ng-model='req.currentMedium.data.warehouse' name='warehouse' label='Stored in warehouse?' x-label-class='small-5' x-input-class='small-7'></x-yes-no>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-4'>
+       <label>Quantity To Estimate</label>
+       <input type='text' x-ng-model='req.currentMedium.data.estimateQuantity' />
+      </div>
+     </div>
+     
+    
+    </div>
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+   
+   </div>
+   
+   <div class='row' x-ng-show='req.currentMedium.useFieldMarketing'>
+    <div class='columns small-12'>
+     <div class='panel'>
+      <h5>Field Marketing</h5>
+      <div class='row'>
+       <div class='columns small-6'>
+         <label>Opportunity</label>
+         <input x-ng-model='req.currentMedium.data.opportunity' type='text'>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Specific Project Details</label>
+        <textarea x-ng-model='req.currentMedium.data.specificProjectDetails' rows='6'></textarea>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Product ISBNs</label>
+        <textarea x-ng-model='req.currentMedium.data.productISBNs' rows='6'></textarea>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Shipping Instructions</label>
+        <textarea x-ng-model='req.currentMedium.data.shippingInstructions' rows='6'></textarea>
+       </div>
+      </div>
+ 
+      
+     </div>
+    </div>
+   </div>
+  </form>

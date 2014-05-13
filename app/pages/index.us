@@ -1,0 +1,14 @@
+<doctype html>
+<html x-ng-app='app'>
+<head>
+	<meta charset="UTF-8">
+	<title><%= pkg.name %></title>
+	<link rel="stylesheet" type="text/css" href="<%= css %>" media = "all" />
+</head>
+<body>
+ <div class='container' x-ng-view>
+ </div>
+	<script type="text/javascript" src="<%= js %>"></script>
+	
+</body>
+</html>

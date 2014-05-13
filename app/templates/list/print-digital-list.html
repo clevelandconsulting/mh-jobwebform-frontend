@@ -1,0 +1,15 @@
+        <thead>
+         <tr>
+          <th>Delivery Date</th>
+          <th>Quantity</th>
+          <th></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr x-ng-repeat='c in req.job.data.collateral["print-digital"]'>
+          <td>{{c.data.deliveryDate}}</td><td>{{c.data.estimateQuantity}}</td><td><a x-ng-click='req.goToMedium("print-digital",$index)'>Edit</a></td>
+         </tr>
+        </tbody>
+        <tfoot>
+         <tr><th colspan='3'><button x-ng-click='req.newMedium("print-digital")'>New Print/Digital</button></th></tr>
+        </tfoot>

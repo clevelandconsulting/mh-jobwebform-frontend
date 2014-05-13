@@ -1,0 +1,105 @@
+  <form>
+   <div class='row'>
+    <div class='columns small-8'>
+    
+    
+     <div class='row'>
+      <div class='columns small-4'>
+       <label>Deployment Date</label>
+       <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' />
+      </div>
+      <div class='columns small-1'></div>
+      <div class='columns small-4'>
+       <label>Campaign End Date</label>
+       <input type='date' x-ng-model='req.currentMedium.data.campaignEndDate' />
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Describe target audience at school and district level</label>
+       <textarea x-ng-model='req.currentMedium.targetAudience' rows='6'></textarea>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-6'>
+       <label>Identify deployment states for list</label>
+       <select multiple="multiple" size='10' data-customforms="disabled" x-ng-model='req.currentMedium.data.deploymentStates' >
+        <option value='OH'>Ohio</option>
+        <option value='MI'>Michigan</option>
+       </select>
+      </div>
+      <div class='columns small-6'>
+       <label>Identify school buildings for list</label>
+       <select multiple="multiple" size='10' data-customforms="disabled" x-ng-model='req.currentMedium.data.schoolBuildings' ></select>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Identify black-out territories for list</label>
+       <textarea x-ng-model='req.currentMedium.blackOutTerritories' rows='3'></textarea>
+      </div>
+     </div>
+     
+    </div>
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+   
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-4'>
+     <label>Identify email primary business objectives</label>
+     <select type='text' multiple="multiple" size='10'  x-ng-model='req.currentMedium.data.primaryObjectives' ></select>
+    </div>
+    <div class='columns small-4'>
+     <label>Identify email list sources</label>
+     <select type='text' multiple="multiple" size='10'  x-ng-model='req.currentMedium.data.listSources' ></select>
+    </div>
+    <div class='columns small-4' x-ng-show='req.currentMedium.data.listSources=="Other"'>
+     <label>Other Details</label>
+     <input x-ng-model='req.currentMedium.data.listSourceOther' type='text'>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>Identify other associated marketing collateral running in conjunction with this email.</label>
+     <textarea x-ng-model='req.currentMedium.otherCollateral' rows='6'></textarea>
+    </div>
+   </div>
+   
+   <div class='row' x-ng-show='req.currentMedium.useFieldMarketing'>
+    <div class='columns small-12'>
+     <div class='panel'>
+      <h5>Regional Specific Needs</h5>
+      <div class='row'>
+       <div class='columns small-6'>
+         <label>Email Subject Line</label>
+         <input x-ng-model='req.currentMedium.data.subjectLine' type='text'>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Email Body Copy</label>
+        <textarea x-ng-model='req.currentMedium.data.bodyCopy' rows='6'></textarea>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Email Call To Action</label>
+        <textarea x-ng-model='req.currentMedium.data.callToAction' rows='6'></textarea>
+       </div>
+      </div>
+ 
+      
+     </div>
+    </div>
+   </div>
+  </form>

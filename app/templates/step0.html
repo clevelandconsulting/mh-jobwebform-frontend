@@ -1,0 +1,154 @@
+  <form name='jobform' x-ng-submit='req.next(jobform.$invalid)' novalidate>
+   
+   <div class='row'>
+  
+    <div class='columns small-8'>
+
+     <div class='row'>
+      
+      <div class='columns small-8' ng-class="{ 'error' : jobform.name.$invalid && ( !jobform.name.$pristine || req.submitted ) }">
+       <label>Requestor Name*</label>
+       <input type='text' name='name' placeholder="Requestor Name" required x-ng-model='req.job.requestorName' />
+       <small class='error' ng-show="jobform.name.$invalid && ( !jobform.name.$pristine || req.submitted )">You must supply your name.</small>
+      </div>
+      <div class='columns small-4' ng-class="{ 'error' : jobform.date.$invalid && ( !jobform.date.$pristine || req.submitted ) }">
+       <label>Request Date*</label>
+       <input type='date' name='date' x-ng-model='req.job.requestDate' required />
+       <small class='error' ng-show="jobform.date.$invalid && ( !jobform.date.$pristine || req.submitted )">You must supply the date.</small>
+      </div>
+     </div>
+     
+     
+     
+     <div class='row'>
+      <div class='columns small-12'>
+      
+       <div class="row" ng-class="{ 'error' : jobform.fieldMarketingSR.$invalid && jobform.fieldMarketingCN.$invalid && jobform.fieldMarketingN.$invalid && ( !jobform.fieldMarketingSR.$pristine || !jobform.fieldMarketingCN.$pristine || !jobform.fieldMarketingN.$pristine || req.submitted ) }">
+        <div class="columns small-6" ng-class='{{ngClass}}'>
+         <label>Is this a Sales Rep's or Consultant's Request?*</label>
+        </div>
+        <div class="columns small-6">
+         <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingSR" id="fieldMarketingSR" value="sales rep" required />
+         <label for="fieldMarketingSR">Sales Rep</label>
+         <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingCN" id="fieldMarketingCN" value="consultant" required />
+         <label for="fieldMarketingCN">Consultant</label>
+         <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingN" id="fieldMarketingN" value="neither" required />
+         <label for="fieldMarketingN">Neither</label>
+        </div>
+       </div>
+       
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12' ng-class="{ 'error' : jobform.product.$invalid && ( !jobform.product.$pristine || req.submitted ) }">
+       <label>Identify Product*</label>
+       <select type='text' name='product' required x-ng-model='req.job.product' x-ng-options='product.value as product.name for product in req.productList.items'><option value=''>Select Product</option></select>
+       <small class='error' ng-show="jobform.product.$invalid && ( !jobform.product.$pristine || req.submitted )">Please select a product from the list</small>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-6' ng-class="{ 'error' : jobform.costCenter.$invalid && ( !jobform.costCenter.$pristine || req.submitted ) }">
+       <label>Cost Center*</label>
+       <input type='text' name='costCenter' placeholder="Cost Center" x-ng-model='req.job.costCenter' required />
+       <small class='error' ng-show="jobform.costCenter.$invalid && ( !jobform.costCenter.$pristine || req.submitted )">You must supply a cost center.</small>
+      </div>
+
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <div class="row" ng-class="{ 'error' : jobform.multipleCollateralYes.$invalid && jobform.multipleCollateralNo.$invalid && ( !jobform.multipleCollateralYes.$pristine || !jobform.multipleCollateralNo.$pristine || req.submitted ) }">
+        <div class="columns small-6" ng-class='{{ngClass}}'>
+         <label>Does this project require mulitple collateral?*</label>
+        </div>
+        <div class="columns small-6">
+         <input type="radio" x-ng-model="req.job.multipleCollateral" name="multipleCollateralYes" id="multipleCollateralYes" value="yes" required />
+         <label for="multipleCollateralYes">Yes</label>
+         <input type="radio" x-ng-model="req.job.multipleCollateral" name="multipleCollateralNo" id="multipleCollateralNo" value="no" required />
+         <label for="multipleCollateralNo">No</label>
+        </div>
+       </div>
+       
+      </div>
+     </div>
+     
+     <div x-ng-show='req.job.hasMultipleComponents()' class='row'>
+      <div class='columns small-12'>
+      <select type='text' x-ng-model='req.job.multipleCollateralType' x-ng-options='type.value as type.name for type in req.multipleCollateralTypeList.items'><option value=''>Select Multiple Collateral Type</option></select>
+      
+      </div>
+     </div>
+     
+     <div class='row'>
+     
+      <div x-ng-show='req.job.hasMultipleComponents()' class='columns small-12' x-ng-class="{ 'error' : req.job.noMediums() && ( !req.job.noMediumKeys() || req.submitted ) }">
+       <label>Identify Medium (check all that apply)*</label>
+       <div class='row' ng-repeat="mediumGang in req.mediumGang">
+        <div class='columns small-12'>
+         <span ng-repeat='medium in mediumGang'>
+           <input type="checkbox" id='medium_{{medium.value}}' name="medium_{{medium.value}}" value="{{medium.value}}" ng-model="req.job.mediums[medium.value]" ng-required='req.job.hasMultipleComponents() && req.job.noMediums()'>
+           <label for='medium_{{medium.value}}'>{{medium.name}}</label>
+         </span>
+        </div>
+       </div>
+       
+      </div>
+
+      <div x-ng-hide='req.job.hasMultipleComponents()'class='columns small-12' x-ng-class="{ 'error' : jobform.medium.$invalid && ( !jobform.medium.$pristine || req.submitted ) }">
+       <label>Identify Medium*</label>
+       <select type='text' name='medium' ng-required='!req.job.hasMultipleComponents()' x-ng-model='req.job.medium' x-ng-options='medium.value as medium.name for medium in req.mediumList.items'><option value=''>Select Medium</option></select>
+       <small class='error' ng-show="jobform.medium.$invalid && ( !jobform.medium.$pristine || req.submitted )">Please select a medium from the list</small>
+       <!--<small class='error'>Please select a medium from the list</small>-->
+      </div>
+     </div>
+     
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Project Title</label>
+       <input type='text' placeholder="Project Title" x-ng-model='req.job.title' />
+      </div>
+     </div>
+     
+     
+     <div class='row' x-ng-hide='req.job.isFieldMarketing()'>
+      <div class='columns small-6'>
+       <label>Relationship Marketing Manager</label>
+       <select type='text' x-ng-model='req.job.relationshipManager' x-ng-options='manager.value as manager.name for manager in req.relationshipManagerList.items'><option value=''>Select Manager</option></select>
+      </div>
+      <div class='columns small-6'>
+       <label>Product Marketing Manager</label>
+       <select type='text' x-ng-model='req.job.productManager' x-ng-options='manager.value as manager.name for manager in req.productManagerList.items'><option value=''>Select Manager</option></select>
+      </div>
+     </div>
+     
+     <div class='row' x-ng-show='req.job.isFieldMarketing()'>
+      <div class='columns small-9'>
+       <label>Disctrict Manager</label>
+       <select type='text' x-ng-model='req.job.districtManager' x-ng-options='manager.value as manager.name for manager in req.districtManagerList.items'><option value=''>Select Manager</option></select>
+      </div>
+     </div>
+     
+   
+    </div>
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+   
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <progress-bar current-step='req.currentStep'></progress-bar>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <button type='submit' >Next ></button>
+    </div>
+   </div>
+  </form>

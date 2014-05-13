@@ -1,0 +1,16 @@
+        <thead>
+         <tr>
+          <th>Deployment Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr x-ng-repeat='c in req.job.data.collateral["webinar"]'>
+          <td>{{c}}</td><td></td><td></td><td><a x-ng-click='req.goToMedium("webinar",$index)'>Edit</a></td>
+         </tr>
+        </tbody>
+        <tfoot>
+         <tr><th colspan='4'><button x-ng-click='req.newMedium("webinar")'>New Webinar</button></th></tr>
+        </tfoot>
