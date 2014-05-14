@@ -25,6 +25,13 @@
      <div class='row'>
       <div class='columns small-6'>
        <label>Identify deployment states for list</label>
+       <ul class='scrollable'>
+        <li><a x-ng-click='req.currentMedium.data.deploymentStates = req.toggle(["Ohio","Michigan"], req.currentMedium.data.deploymentStates, 0)'>Ohio</a><span x-ng-show='req.currentMedium.data.deploymentStates.indexOf("Ohio")>-1'>YUP!</span></li>
+        <li>Michigan</li>
+        <li>Indiana</li>
+        <li>Pennsylvania</li>
+        <li>Kentucky</li>
+       </ul>
        <select multiple="multiple" size='10' data-customforms="disabled" x-ng-model='req.currentMedium.data.deploymentStates' >
         <option value='OH'>Ohio</option>
         <option value='MI'>Michigan</option>

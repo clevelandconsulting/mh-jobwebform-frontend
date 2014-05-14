@@ -42,13 +42,45 @@ describe "jobrequest controller", ->
    @list = ['test','ha','blah']
    @selectedItems = ['test']
   
+  describe "when removing to the list", ->
+   Given -> 
+    @newItem = 0
+    @expectedItems = []
+   
+   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
+
+   Then -> expect(@result).toEqual(@expectedItems)
+  
   describe "when adding to the list", ->
-   Given -> @newItem = 2
+   Given -> 
+    @newItem = 2
+    @expectedItems = ['test','blah']
    
-   When -> @subject.toggle(@list,@selectedItems, @newItem)
+   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
+
+   Then -> expect(@result).toEqual(@expectedItems)
+  
+  describe "with invalid index", ->
+   Given -> 
+    @newItem = 3
+    @expectedItems = ['test']
    
-   Then ->
- 
+   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
+
+   Then -> expect(@result).toEqual(@expectedItems)
+  
+  describe "when adding to the list when no selected items", ->
+   Given -> 
+    @newItem = 2
+    @selectedItems = undefined
+    @expectedItems = ['blah']
+   
+   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
+
+   Then -> expect(@result).toEqual(@expectedItems)
+  
+  
+  
  describe "goToMedium()",->
   Given -> 
    @medium = 'print-digital'

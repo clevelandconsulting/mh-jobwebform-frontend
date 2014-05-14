@@ -28,6 +28,24 @@ angular.module('app').controller 'jobrequestController', [ 'mediumList', 'produc
    else
     ''
     
+  toggle: (list,selectedItems,index) ->
+   item = list[index]
+   if item?
+    found = false
+    if selectedItems? and selectedItems.length?
+     for items, n in selectedItems
+      if item == items
+       found = true
+       selectedItems.splice(n,1)
+       break;
+    else
+     selectedItems = []
+         
+    if !found
+     selectedItems.push item
+   
+   selectedItems
+    
   toTitleCase: (str) ->
    fn = (txt) -> txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
    return str.replace(/([^\W_]+[^\s-]*) */g, fn )
