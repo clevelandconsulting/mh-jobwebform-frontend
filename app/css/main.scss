@@ -1,5 +1,7 @@
 $button-disabled-opacity: 0.3;
 
+$body-font-family: Arial, sans-serif !default;
+
 @import "foundation.scss";
 @import "general_enclosed_foundicons.scss";
 
@@ -46,6 +48,10 @@ $button-disabled-opacity: 0.3;
   padding-top: 0.15em;
 }
 
+.medium {
+  font-size: 85%;
+}
+
 table.noBorder {
  border: 0;
 }
@@ -67,14 +73,25 @@ table tr td button, table tr th button {
 }
 
 ul.scrollable {
-    width: 12em;
     height: 10em;
     line-height: 2em;
     border: 1px solid #ccc;
     padding: 0;
-    margin: 0;
+    margin-left: 0;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+ul.scrollable li {
+  padding-left: 0.3em;
+}
+
+ul.scrollable li.selected {
+ background-color: $primary-color;
+}
+
+ul.scrollable li.selected a {
+ color: white
 }
 
 .foundicon-plus, .foundicon-checkmark {

@@ -1,0 +1,180 @@
+  <form>
+  
+   <div class='row'>
+    <div class='columns small-8'>
+     <div class='row'>
+     
+      <div class='columns small-12'>    
+       <div class='panel'>
+        <h5>Webinar Details</h5>
+        
+        <div class='row'>
+         <div class='columns small-4'>
+           <label>Deployment Date</label>
+           <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' />
+         </div>
+         <div class='columns small-4'>
+           <label>Start Time</label>
+           <input type='time' x-ng-model='req.currentMedium.data.startTime' />
+         </div>
+         <div class='columns small-4'>
+           <label>End Time</label>
+           <input type='time' x-ng-model='req.currentMedium.data.endTime' />
+         </div>
+        </div>
+        
+        <div class='row'>
+         <div class='columns small-12'>
+          <label>Webinar Title</label>
+          <input type='text' x-ng-model='req.currentMedium.data.title' />
+         </div>
+        </div>
+        
+        <div class='row'>
+         <div class='columns small-12'>
+          <label>Webinar Purpose</label>
+          <ul class='scrollable' style='background-color: white'>
+           <li x-ng-repeat='purpose in req.purposeList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.purposes.indexOf(purpose.value)>-1]'>
+            <a x-ng-click='req.currentMedium.togglePurpose(req.purposeList.items,$index)'>{{purpose.value}}</a>
+           </li>
+          </ul>
+         </div>
+        </div>
+        
+        <div class='row'>
+         <div class='columns small-12'>
+          <label>Webinar Objective</label>
+          <textarea x-ng-model='req.currentMedium.data.objective' rows='6'></textarea>
+         </div>
+        </div>
+       </div>
+       
+      </div>
+     </div>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <div class='panel'>
+     
+      <h5>Presenter Details</h5>
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Presenter Name</label>
+        <input type='text' x-ng-model='req.currentMedium.data.presenter["Name"]' />
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Email</label>
+        <input type='text' x-ng-model='req.currentMedium.data.presenter["Email"]' />
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-3'>
+        <label>Title</label>
+        <input type='text' x-ng-model='req.currentMedium.data.presenter["Title"]' />
+       </div>
+       <div class='columns small-9'>
+        <label>Organization Name</label>
+        <input type='text' x-ng-model='req.currentMedium.data.presenter["Organization"]' />
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Presenter's Photo</label>
+        <p>ATTACH FILE HERE</p>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <label>Identify the number of additional people (other than presenter) who will need panelist access to the LIVE webinar</label>
+        <div class='small-2'>
+         <input type='number' x-ng-model='req.currentMedium.data.additionalPeople' />
+        </div>
+       </div>
+      </div>
+      
+     </div>
+    </div> 
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <div class='panel'>
+     
+      <h5>Registration Information</h5>
+      <div class='row'>
+       <div class='columns small-12'>
+        <div class='panel callout'>
+         <p class='medium'>Standard information collected is name, email, title, organization, city, state, zip, and telephone.<br />Identify additional information you would like collected.</p>
+        </div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['CEU']" >
+        <label>CEU Credit</label>
+        <div class='alert-box secondary'>If webinar content is professional development, you should offer live attendees option to receive a CEU certification.</div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['Incentives']" >
+        <label>Attendee Incentives</label>
+        <div class='alert-box secondary'>Product give-a-ways or contests.</div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['Polling']" >
+        <label>Polling Questions</label>
+        <div class='alert-box secondary'>Learn more about your audience and engage.</div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['Exit-Survey']" >
+        <label>Exit Survey</label>
+        <div class='alert-box secondary'>Survey will immediately open after an attendee exits.</div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['Free-Resources']" >
+        <label>Free Resources</label>
+        <div class='alert-box secondary'>White papers, digital marketing collateral, links to video content. Links will be distributed to live content on the webinar using chat function.</div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['Follow-Up']" >
+        <label>Follow-Up</label>
+        <div class='alert-box secondary'>Additional follow-up emails or links to content, beyond the normal follow-up email that all recipients receive after participation.</div>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-12'>
+        <input type="checkbox" x-ng-model="req.currentMedium.data.additionalInformation['Leads']" >
+        <label>Leads</label>
+        <div class='alert-box secondary'>All registration information is uploaded into SFDC and registrants are categorized as contacts.  Are there special qualifiers for your webinar? Do certain segments of attendees need follow-up differently or immediately?</div>
+       </div>
+      </div>
+      
+     </div>
+    </div> 
+   </div>
+
+  </form>

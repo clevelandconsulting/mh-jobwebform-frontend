@@ -1,7 +1,30 @@
-angular.module('app').factory 'dropdown', ->
+angular.module('app').factory 'dropdown', ['$http', ($http) ->
  class dropDown
   constructor: ->
+   @http = $http
    @items = []
+  
+  load: (url) ->
+   stateJson = $http.get(url).then (results) =>
+    for item in results.data
+     name = null
+     value = null
+     
+     if item.name?
+      name = item.name
+     
+     if item.value?
+      value = item.value
+      
+     if name == null and value == null
+      name = item
+      value = item
+     else if name == null
+      name = value
+     else if value == null
+      value = name
+      
+     @add(name, value)
   
   add: (name, value) ->
    if name?
@@ -26,4 +49,5 @@ angular.module('app').factory 'dropdown', ->
     items.push gangItems
    
    items
-  
+
+]

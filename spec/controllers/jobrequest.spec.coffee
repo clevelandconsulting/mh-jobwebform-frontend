@@ -2,16 +2,10 @@
 
 describe "jobrequest controller", ->
  Given -> module 'app'
- Given angular.mock.inject ($rootScope, $controller, $location, mediumList, productList, multipleCollateralTypeList, relationshipManagerList, productManagerList, districtManagerList, jobService, printdigital, email, micrositesplash, socialmedia, video, webinar,notifications) ->
+ Given angular.mock.inject ($rootScope, $controller, $location, listManager, jobService, printdigital, email, micrositesplash, socialmedia, video, webinar,notifications) ->
   @scope = $rootScope.$new()
-  @mockMediums = mediumList
-  @mockMediums.items = [ 1,2,3,4,5,6 ]
   @mockJob = jobService
-  @mockProducts = productList
-  @mockRelationshipManagers = relationshipManagerList
-  @mockProductManagers = productManagerList
-  @mockDistrictManagers = districtManagerList
-  @mockMultipleCollateralTypes = multipleCollateralTypeList
+  @mockListManager = listManager
   @mockNotifications = notifications
   @mockPrintDigital = printdigital
   @mockemail = email
@@ -21,66 +15,29 @@ describe "jobrequest controller", ->
   @mockwebinar = webinar
   @location = $location
   @location.path('/')
-  @subject = $controller 'jobrequestController', {mediumList:@mockMediums, productList:@mockProducts, multipleCollateralTypeList:@mockMultipleCollateralTypes, relationshipManagerList:@mockRelationshipManagers, productManagerList:@mockProductManagers, jobService:@mockJob, printdigital:@mockPrintDigital, notifications:@mockNotifications, location:@location,districtManagerList:@mockDistrictManagers}
+  @subject = $controller 'jobrequestController', {listManager:@mockListManager, jobService:@mockJob, printdigital:@mockPrintDigital, notifications:@mockNotifications, location:@location}
   
  Then -> expect(@subject).toBeDefined()
  Then -> expect(@subject.currentStep).toBe(0)
  Then -> expect(@subject.template).toBe('step0.html')
- Then -> expect(@subject.mediumList).toBe(@mockMediums)
- Then -> expect(@subject.mediumGang).toEqual(@mockMediums.gangByCount(3))
- Then -> expect(@subject.productList).toBe(@mockProducts)
- Then -> expect(@subject.multipleCollateralTypeList).toBe(@mockMultipleCollateralTypes)
- Then -> expect(@subject.relationshipManagerList).toBe(@mockRelationshipManagers)
- Then -> expect(@subject.productManagerList).toBe(@mockProductManagers)
- Then -> expect(@subject.districtManagerList).toBe(@mockDistrictManagers)
+ Then -> expect(@subject.mediumList).toBe(@mockListManager.mediumList)
+ Then -> expect(@subject.mediumGang).toEqual(@mockListManager.mediumList.gangByCount(3))
+ Then -> expect(@subject.productList).toBe(@mockListManager.productList)
+ Then -> expect(@subject.multipleCollateralTypeList).toBe(@mockListManager.multipleCollateralTypeList)
+ Then -> expect(@subject.relationshipManagerList).toBe(@mockListManager.relationshipManagerList)
+ Then -> expect(@subject.productManagerList).toBe(@mockListManager.productManagerList)
+ Then -> expect(@subject.districtManagerList).toBe(@mockListManager.districtManagerList)
+ Then -> expect(@subject.stateList).toBe(@mockListManager.stateList)
+ Then -> expect(@subject.schoolBuildingList).toBe(@mockListManager.schoolBuildingList)
+ Then -> expect(@subject.emailObjectiveList).toBe(@mockListManager.emailObjectiveList)
+ Then -> expect(@subject.emailListSourceList).toBe(@mockListManager.emailListSourceList)
+ Then -> expect(@subject.purposeList).toBe(@mockListManager.purposeList)
+ Then -> expect(@subject.productCategoryList).toBe(@mockListManager.productCategoryList)
  Then -> expect(@subject.job).toEqual(@mockJob)
  Then -> expect(@subject.notifications).toBe(@mockNotifications)
  Then -> expect(@subject.currentMedium).toEqual(null)
  
- describe "toggle()", ->
-  Given -> 
-   @list = ['test','ha','blah']
-   @selectedItems = ['test']
-  
-  describe "when removing to the list", ->
-   Given -> 
-    @newItem = 0
-    @expectedItems = []
-   
-   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
 
-   Then -> expect(@result).toEqual(@expectedItems)
-  
-  describe "when adding to the list", ->
-   Given -> 
-    @newItem = 2
-    @expectedItems = ['test','blah']
-   
-   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
-
-   Then -> expect(@result).toEqual(@expectedItems)
-  
-  describe "with invalid index", ->
-   Given -> 
-    @newItem = 3
-    @expectedItems = ['test']
-   
-   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
-
-   Then -> expect(@result).toEqual(@expectedItems)
-  
-  describe "when adding to the list when no selected items", ->
-   Given -> 
-    @newItem = 2
-    @selectedItems = undefined
-    @expectedItems = ['blah']
-   
-   When -> @result = @subject.toggle(@list, @selectedItems, @newItem)
-
-   Then -> expect(@result).toEqual(@expectedItems)
-  
-  
-  
  describe "goToMedium()",->
   Given -> 
    @medium = 'print-digital'

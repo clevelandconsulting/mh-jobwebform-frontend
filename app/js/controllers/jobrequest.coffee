@@ -10,10 +10,24 @@
 ###
 
 
-angular.module('app').controller 'jobrequestController', [ 'mediumList', 'productList', 'multipleCollateralTypeList', 'relationshipManagerList', 'productManagerList', 'districtManagerList', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$rootScope',
+angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$rootScope',
  class jobRequestController
-  constructor: (@mediumList, @productList, @multipleCollateralTypeList, @relationshipManagerList, @productManagerList, @districtManagerList, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope) ->
+  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope) ->
    @currentMedium = @getCurrentMedium()
+   
+   #pull out list services
+   @mediumList = @listManager.mediumList
+   @productList = @listManager.productList
+   @multipleCollateralTypeList = @listManager.multipleCollateralTypeList
+   @relationshipManagerList = @listManager.relationshipManagerList
+   @productManagerList = @listManager.productManagerList
+   @districtManagerList = @listManager.districtManagerList
+   @stateList = @listManager.stateList
+   @schoolBuildingList = @listManager.schoolBuildingList
+   @emailObjectiveList = @listManager.emailObjectiveList
+   @emailListSourceList = @listManager.emailListSourceList
+   @purposeList = @listManager.purposeList
+   @productCategoryList = @listManager.productCategoryList
    @helpText = 'Here is the help!'
    @setCurrentStep()
    @mediumGang = @mediumList.gangByCount(3)
@@ -27,25 +41,8 @@ angular.module('app').controller 'jobrequestController', [ 'mediumList', 'produc
     header = key.replace(/-/g,'/')
    else
     ''
-    
-  toggle: (list,selectedItems,index) ->
-   item = list[index]
-   if item?
-    found = false
-    if selectedItems? and selectedItems.length?
-     for items, n in selectedItems
-      if item == items
-       found = true
-       selectedItems.splice(n,1)
-       break;
-    else
-     selectedItems = []
-         
-    if !found
-     selectedItems.push item
-   
-   selectedItems
-    
+
+  
   toTitleCase: (str) ->
    fn = (txt) -> txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
    return str.replace(/([^\W_]+[^\s-]*) */g, fn )

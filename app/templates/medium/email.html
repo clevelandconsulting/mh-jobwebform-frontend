@@ -18,7 +18,7 @@
      <div class='row'>
       <div class='columns small-12'>
        <label>Describe target audience at school and district level</label>
-       <textarea x-ng-model='req.currentMedium.targetAudience' rows='6'></textarea>
+       <textarea x-ng-model='req.currentMedium.data.targetAudience' rows='6'></textarea>
       </div>
      </div>
      
@@ -26,27 +26,25 @@
       <div class='columns small-6'>
        <label>Identify deployment states for list</label>
        <ul class='scrollable'>
-        <li><a x-ng-click='req.currentMedium.data.deploymentStates = req.toggle(["Ohio","Michigan"], req.currentMedium.data.deploymentStates, 0)'>Ohio</a><span x-ng-show='req.currentMedium.data.deploymentStates.indexOf("Ohio")>-1'>YUP!</span></li>
-        <li>Michigan</li>
-        <li>Indiana</li>
-        <li>Pennsylvania</li>
-        <li>Kentucky</li>
+        <li x-ng-repeat='state in req.stateList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.deploymentStates.indexOf(state.value)>-1]'>
+         <a x-ng-click='req.currentMedium.toggleState(req.stateList.items,$index)'>{{state.value}}</a>
+        </li>
        </ul>
-       <select multiple="multiple" size='10' data-customforms="disabled" x-ng-model='req.currentMedium.data.deploymentStates' >
-        <option value='OH'>Ohio</option>
-        <option value='MI'>Michigan</option>
-       </select>
       </div>
       <div class='columns small-6'>
        <label>Identify school buildings for list</label>
-       <select multiple="multiple" size='10' data-customforms="disabled" x-ng-model='req.currentMedium.data.schoolBuildings' ></select>
+       <ul class='scrollable'>
+        <li x-ng-repeat='building in req.schoolBuildingList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.schoolBuildings.indexOf(building.value)>-1]'>
+         <a x-ng-click='req.currentMedium.toggleBuilding(req.schoolBuildingList.items,$index)'>{{building.value}}</a>
+        </li>
+       </ul>
       </div>
      </div>
      
      <div class='row'>
       <div class='columns small-12'>
        <label>Identify black-out territories for list</label>
-       <textarea x-ng-model='req.currentMedium.blackOutTerritories' rows='3'></textarea>
+       <textarea x-ng-model='req.currentMedium.data.blackOutTerritories' rows='3'></textarea>
       </div>
      </div>
      
@@ -61,11 +59,21 @@
    <div class='row'>
     <div class='columns small-4'>
      <label>Identify email primary business objectives</label>
-     <select type='text' multiple="multiple" size='10'  x-ng-model='req.currentMedium.data.primaryObjectives' ></select>
+     <ul class='scrollable'>
+      <li x-ng-repeat='objective in req.emailObjectiveList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.primaryObjectives.indexOf(objective.value)>-1]'>
+       <a x-ng-click='req.currentMedium.toggleObjective(req.emailObjectiveList.items,$index)'>{{objective.value}}</a>
+      </li>
+     </ul>
+     
     </div>
     <div class='columns small-4'>
      <label>Identify email list sources</label>
-     <select type='text' multiple="multiple" size='10'  x-ng-model='req.currentMedium.data.listSources' ></select>
+     <ul class='scrollable'>
+      <li x-ng-repeat='source in req.emailListSourceList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.listSources.indexOf(source.value)>-1]'>
+       <a x-ng-click='req.currentMedium.toggleSource(req.emailListSourceList.items,$index)'>{{source.value}}</a>
+      </li>
+     </ul>
+     
     </div>
     <div class='columns small-4' x-ng-show='req.currentMedium.data.listSources=="Other"'>
      <label>Other Details</label>
@@ -76,7 +84,7 @@
    <div class='row'>
     <div class='columns small-12'>
      <label>Identify other associated marketing collateral running in conjunction with this email.</label>
-     <textarea x-ng-model='req.currentMedium.otherCollateral' rows='6'></textarea>
+     <textarea x-ng-model='req.currentMedium.data.otherCollateral' rows='6'></textarea>
     </div>
    </div>
    

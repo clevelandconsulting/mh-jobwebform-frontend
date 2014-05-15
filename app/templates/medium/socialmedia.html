@@ -1,0 +1,81 @@
+  <form>
+   <div class='row'>
+    <div class='columns small-8'>
+    
+    
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Deployment Date</label>
+       <div class='small-4'>
+        <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' style='margin-bottom: 0'/>
+       </div>
+       <p><small>*If left blank, a date will be selected for deployment</small></p>
+      </div>
+      
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Link to URL to be shared or referenced</label>
+       <input type='text' x-ng-model='req.currentMedium.data.link'>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Network path for files or media associated with this request</label>
+       <input type='text' x-ng-model='req.currentMedium.data.networkPath'>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-5'>
+       <label>Related Product Category</label>
+       <ul class='scrollable'>
+        <li x-ng-repeat='category in req.productCategoryList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.relatedCategories.indexOf(category.value)>-1]'>
+         <a x-ng-click='req.currentMedium.toggleState(req.productCategoryList.items,$index)'>{{category.value}}</a>
+        </li>
+       </ul>
+      </div>
+      <div class='columns small-7'>
+       <label>Communication Purpose</label>
+       <ul class='scrollable' style='background-color: white'>
+        <li x-ng-repeat='purpose in req.purposeList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.purposes.indexOf(purpose.value)>-1]'>
+         <a x-ng-click='req.currentMedium.togglePurpose(req.purposeList.items,$index)'>{{purpose.value}}</a>
+        </li>
+       </ul>
+      </div>
+     </div>
+     
+    </div>
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+   
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>Key message or statement</label>
+     <textarea x-ng-model='req.currentMedium.data.keyMessage' rows='5' style='margin-bottom: 0'></textarea>
+     <p><small>*Twitter: limit 140 characters, Facebook: 2-3 sentences, Video Description: 2-3 sentences.</small></p>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>Identify keywords, search terms, or phrases related to the topic of this communication</label>
+     <textarea x-ng-model='req.currentMedium.data.keywords' rows='5' style='margin-bottom: 0'></textarea>
+     <p><small>*Information will assist in providing metadata (when possible) for searchable content.</small></p>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>Identify organizations, groups, customer audiences, or key individuals related to this request and/or relevant products.</label>
+     <textarea x-ng-model='req.currentMedium.data.audiences' rows='5'></textarea>
+    </div>
+   </div>
+
+  </form>
