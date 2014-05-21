@@ -41,7 +41,7 @@ describe "progress-bar", ->
   
   When -> 
    @labelText = @element.find('label').text()
-   @spanWidth = @element.find('div').find('span')[0].attributes[1].nodeValue
+   @spanWidth = @element.find('div').find('span')[0].getAttribute('style')
    
   Then -> expect(@spanWidth).toBe 'width: 1%'
   Then -> expect(@labelText).toBe 'Step 1 of 2'
@@ -53,7 +53,7 @@ describe "progress-bar", ->
     
    When -> 
     @labelText = @element.find('label').text()
-    @spanWidth = @element.find('div').find('span')[0].attributes[1].nodeValue
+    @spanWidth = @element.find('div').find('span')[0].getAttribute('style')
     
    Then -> expect(@spanWidth).toBe 'width: 50%'
    Then -> expect(@labelText).toBe 'Step 2 of 2'
@@ -65,7 +65,7 @@ describe "progress-bar", ->
     
    When -> 
     @labelText = @element.find('label').text()
-    @spanWidth = @element.find('div').find('span')[0].attributes[1].nodeValue
+    @spanWidth = @element.find('div').find('span')[0].getAttribute('style')
     
    Then -> expect(@spanWidth).toBe 'width: 50%'
    Then -> expect(@labelText).toBe 'Step 2 of 2'
@@ -77,7 +77,7 @@ describe "progress-bar", ->
     
    When -> 
     @labelText = @element.find('label').text()
-    @spanWidth = @element.find('div').find('span')[0].attributes[1].nodeValue
+    @spanWidth = @element.find('div').find('span')[0].getAttribute('style')
     
    Then -> expect(@spanWidth).toBe 'width: 100%'
    Then -> expect(@labelText).toBe 'Complete!'

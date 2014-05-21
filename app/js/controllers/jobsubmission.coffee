@@ -1,9 +1,14 @@
-angular.module('app').controller 'jobsubmissionController', [ 'jobService','notifications', '$location', '$rootScope',
+angular.module('app').controller 'jobsubmissionController', [ 'jobService', 'urlService', 'notifications', '$location', '$rootScope',
  class jobSubmissionController
-  constructor: (@job, @notifications, @location, @scope) ->
+  constructor: (@job, @urlService, @notifications, @location, @scope) ->
+   @checkForValidity()
    
   checkForValidity: ->
-   if @job.data.mediums = {} or @job.data.collateral = {}
-    false
+   @validJobRequest = @job.isValidForSubmission()
+   
+  submitJobRequest: ->
+   result = @urlService.postJobRequestData(@job.data)
+   result
+   #result.then = (data) => @response = data
 
 ]

@@ -118,18 +118,43 @@ class job
   else
    false
  
- isValidForSubmission: ->
+ isValidForSubmission: (logging) ->
   result = true
   
-  if !@hasMultipleComponents()
-   #console.log 'medium collateral',@data.collateral[@medium]
-   if !@data.collateral[@medium]?
-    result = false
-    
-  else
-   for key of @mediums
-    if !(@data.collateral[key]?)
+  if !@requestorName? or @requestorName == ''
+   result = false
+  else if !@fieldMarketing? or @fieldMarketing == ''
+   result = false
+  else if !@product? or @product == ''
+   result = false
+  else if !@costCenter? or @costCenter == ''
+   result = false
+  
+  if logging
+   console.log 'base data result', result
+  
+  if result 
+   if !@hasMultipleComponents()
+    if logging 
+     console.log 'checking single collateral'
+    if !@medium? or @medium == ''
+     if logging
+      console.log 'no medium'
      result = false
+    else if !@data.collateral[@medium]?
+     if logging
+      console.log 'no collateral for medium', @medium, @data.medium
+     result = false
+     
+   else
+    if logging
+     console.log 'checking multiple collateral', @mediums
+    if !@mediums? or @mediums == '' or @mediums.length == 0
+     result = false
+    else
+     for key of @mediums
+      if !(@data.collateral[key]?)
+       result = false
   
   result
 

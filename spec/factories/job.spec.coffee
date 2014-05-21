@@ -32,24 +32,38 @@ describe "job", ->
     
    describe "and single collateral", ->
     Given -> 
-     @subject.medium = @foo
      @subject.multipleCollateral = 'no'
     
     describe "that is valid", ->
-     Given -> @subject.data.collateral[@foo] = @foo
+     Given ->
+      @subject.medium = @foo 
+      @subject.data.collateral[@foo] = @foo
+      
      When -> @result = @subject.isValidForSubmission()
      Then -> expect(@result).toBe(true)
      
     describe "that is invalid", ->
-     Given -> @subject.data.collateral[@foo] = undefined
+     Given ->
+      @subject.medium = @foo 
+      @subject.data.collateral[@foo] = undefined
      When -> @result = @subject.isValidForSubmission()
      Then -> expect(@result).toBe(false)
-   
+    
+    describe "that has an undefined medium", ->
+     Given -> @subject.medium = undefined 
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+    
+    describe "that is missing a medium", ->
+     Given -> @subject.medium = '' 
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+    
    describe "and multiple collateral", ->
     Given ->
      @subject.multipleCollateral = 'yes'
-     @subject.mediums[@foo] = true
-     @subject.mediums[@foo2] = true
+     @subject.data.mediums[@foo] = true
+     @subject.data.mediums[@foo2] = true
     
     describe "that are all valid", ->
      Given -> 
@@ -71,6 +85,58 @@ describe "job", ->
       @subject.data.collateral[@foo2] = undefined
      When -> @result = @subject.isValidForSubmission()
      Then -> expect(@result).toBe(false)
+    
+    describe "that has an undefined mediums", ->
+     Given -> @subject.mediums = undefined 
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+    
+    describe "that is missing any medium", ->
+     Given -> @subject.mediums = [] 
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+    
+  describe "when has correct medium", ->
+   Given ->
+    @subject.medium = @foo
+    @subject.multipleCollateral = 'no'
+    @subject.data.collateral[@foo] = @foo
+    
+   describe "but is missing requestor name", ->
+    Given ->
+     @subject.fieldMarketing = true
+     @subject.product = @foo
+     @subject.costCenter = @foo
+     
+    When -> @result = @subject.isValidForSubmission()
+    Then -> expect(@result).toBe(false)
+   
+   describe "but is missing field marketing", ->
+    Given ->
+     @subject.requestorName = @foo
+     @subject.product = @foo
+     @subject.costCenter = @foo
+     
+    When -> @result = @subject.isValidForSubmission()
+    Then -> expect(@result).toBe(false)
+   
+   describe "but is missing product", ->
+    Given ->
+     @subject.requestorName = @foo
+     @subject.fieldMarketing = true
+     @subject.costCenter = @foo
+     
+    When -> @result = @subject.isValidForSubmission()
+    Then -> expect(@result).toBe(false)
+   
+   describe "but is missing cost center", ->
+    Given ->
+     @subject.requestorName = @foo
+     @subject.fieldMarketing = true
+     @subject.product = @foo
+     
+    When -> @result = @subject.isValidForSubmission()
+    Then -> expect(@result).toBe(false)
     
      
  
