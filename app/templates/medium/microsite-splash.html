@@ -1,0 +1,135 @@
+  <form>
+   <div class='row'>
+    <div class='columns small-8'>
+    
+    
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Deployment Date</label>
+       <div class='small-4'>
+        <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' style='margin-bottom: 0'/>
+       </div>
+       <p><small>*If left blank, a date will be selected for deployment</small></p>
+      </div>
+      
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Explain any relevant factors for this deployment date</label>
+       <textarea x-ng-model='req.currentMedium.data.deploymentDateFactors' rows='3'></textarea>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Identify the URL for a pre-existing microsite.  If none exists type "None"</label>
+       <input type='text' x-ng-model='req.currentMedium.data.existingURL'>
+      </div>
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>If microsite pre-exists, what is the main reason for redesign?</label>
+       <textarea x-ng-model='req.currentMedium.data.redesignReason' rows='3'></textarea>
+      </div>
+     </div>
+     
+    </div>    
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+   
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-4'>
+     <label>Identify primary audience</label>
+     <textarea x-ng-model='req.currentMedium.data.primaryAudience' rows='5'></textarea>
+    </div>
+    <div class='columns small-4'>
+     <label>Identify secondary audience</label>
+     <textarea x-ng-model='req.currentMedium.data.secondaryAudience' rows='5'></textarea>
+    </div>
+    <div class='columns small-4'>
+     <label>Identify tertiary audience</label>
+     <textarea x-ng-model='req.currentMedium.data.tertiaryAudience' rows='5'></textarea>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>What is your budget?</label>
+     <div class='small-6'>
+      <input type='text' x-ng-model='req.currentMedium.data.budget' />
+     </div>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>How long will this microsite live in the market? (months)</label>
+     <div class='small-3'>
+      <input type='number' x-ng-model='req.currentMedium.data.monthsInMarket' />
+     </div>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-5'>
+     <label>Identify customer requests from this microsite</label>
+     <select-list x-ng-model='req.currentMedium.data.customerRequests' items='req.customerRequestList.items'></select-list>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>Will customers have the option to request more information about this product line?</label>
+     <div class="small-6">
+      <input type="radio" x-ng-model="req.currentMedium.data.moreInfo" name="moreInfoY" id="moreInfoY" value="yes" />
+      <label for="moreInfoY">Yes</label>
+      <input type="radio" x-ng-model="req.currentMedium.data.moreInfo" name="moreInfoN" id="moreInfoN" value="no" />
+      <label for="moreInfoN">No</label>
+     </div>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-7'>
+     <div class='panel'>
+      <h6>Specific To Your Request, Rate The Following In Terms Of Priority</h6>
+      
+      <div class='row'>
+       <div class='columns small-5'>
+        <input type='number' x-ng-model='req.currentMedium.data.priorities.time' />
+       </div>
+       <div class='columns small-7'>
+        <label>Time</label>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-5'>
+        <input type='number' x-ng-model='req.currentMedium.data.priorities.budget' />
+       </div>
+       <div class='columns small-7'>
+        <label>Budget/Cost</label>
+       </div>
+      </div>
+      
+      <div class='row'>
+       <div class='columns small-5'>
+        <input type='number' x-ng-model='req.currentMedium.data.priorities.quality' />
+       </div>
+       <div class='columns small-7'>
+        <label>Quality</label>
+       </div>
+      </div>
+      <small>*Type A Number In Front Of Each</small>
+     </div>
+     
+    </div>
+   </div>
+   
+  </form>

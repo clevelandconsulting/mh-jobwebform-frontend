@@ -25,19 +25,11 @@
      <div class='row'>
       <div class='columns small-6'>
        <label>Identify deployment states for list</label>
-       <ul class='scrollable'>
-        <li x-ng-repeat='state in req.stateList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.deploymentStates.indexOf(state.value)>-1]'>
-         <a x-ng-click='req.currentMedium.toggleState(req.stateList.items,$index)'>{{state.value}}</a>
-        </li>
-       </ul>
+       <select-list x-ng-model='req.currentMedium.data.deploymentStates' items='req.stateList.items'></select-list>
       </div>
       <div class='columns small-6'>
        <label>Identify school buildings for list</label>
-       <ul class='scrollable'>
-        <li x-ng-repeat='building in req.schoolBuildingList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.schoolBuildings.indexOf(building.value)>-1]'>
-         <a x-ng-click='req.currentMedium.toggleBuilding(req.schoolBuildingList.items,$index)'>{{building.value}}</a>
-        </li>
-       </ul>
+       <select-list x-ng-model='req.currentMedium.data.schoolBuildings' items='req.schoolBuildingList.items'></select-list>
       </div>
      </div>
      
@@ -59,21 +51,11 @@
    <div class='row'>
     <div class='columns small-4'>
      <label>Identify email primary business objectives</label>
-     <ul class='scrollable'>
-      <li x-ng-repeat='objective in req.emailObjectiveList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.primaryObjectives.indexOf(objective.value)>-1]'>
-       <a x-ng-click='req.currentMedium.toggleObjective(req.emailObjectiveList.items,$index)'>{{objective.value}}</a>
-      </li>
-     </ul>
-     
+     <select-list x-ng-model='req.currentMedium.data.primaryObjectives' items='req.emailObjectiveList.items'></select-list>
     </div>
     <div class='columns small-4'>
      <label>Identify email list sources</label>
-     <ul class='scrollable'>
-      <li x-ng-repeat='source in req.emailListSourceList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.listSources.indexOf(source.value)>-1]'>
-       <a x-ng-click='req.currentMedium.toggleSource(req.emailListSourceList.items,$index)'>{{source.value}}</a>
-      </li>
-     </ul>
-     
+     <select-list x-ng-model='req.currentMedium.data.listSources' items='req.emailListSourceList.items'></select-list>
     </div>
     <div class='columns small-4' x-ng-show='req.currentMedium.data.listSources=="Other"'>
      <label>Other Details</label>

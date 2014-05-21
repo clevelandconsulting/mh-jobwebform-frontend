@@ -1,6 +1,6 @@
 $button-disabled-opacity: 0.3;
-
-$body-font-family: Arial, sans-serif !default;
+$triangle-color: #ff0000;
+$body-font-family: 'Aurm Sans', Arial, sans-serif !default;
 
 @import "foundation.scss";
 @import "general_enclosed_foundicons.scss";
@@ -92,6 +92,26 @@ ul.scrollable li.selected {
 
 ul.scrollable li.selected a {
  color: white
+}
+
+div.header {
+ //background-color: #343331;
+ background: #343331 url(../img/cubigraph-2_gray_withline.png) right no-repeat;
+ 
+ color: white;
+ height: 110px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+}
+
+div.header h1 {
+ font-size: rem-calc(40);
+ line-height: 1.2;
+}
+
+div.header h1, div.header h2, div.header h3, div.header h4, div.header h5 {
+ color: white;
+ font-family: 'Vectipede', 'Arial'
 }
 
 .foundicon-plus, .foundicon-checkmark {

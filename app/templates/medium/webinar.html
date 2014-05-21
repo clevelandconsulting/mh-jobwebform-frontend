@@ -33,11 +33,7 @@
         <div class='row'>
          <div class='columns small-12'>
           <label>Webinar Purpose</label>
-          <ul class='scrollable' style='background-color: white'>
-           <li x-ng-repeat='purpose in req.purposeList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.purposes.indexOf(purpose.value)>-1]'>
-            <a x-ng-click='req.currentMedium.togglePurpose(req.purposeList.items,$index)'>{{purpose.value}}</a>
-           </li>
-          </ul>
+          <select-list x-ng-model='req.currentMedium.data.purposes' items='req.purposeList.items' style='background-color: white'></select-list>
          </div>
         </div>
         
@@ -52,6 +48,11 @@
       </div>
      </div>
     </div>
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+    
    </div>
    
    <div class='row'>

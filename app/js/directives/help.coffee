@@ -5,7 +5,7 @@ angular.module('app').directive 'help',  ->
   require: 'currentStep',
   scope: { currentStep: "=" , text: '='},
   replace: 'true',
-  templateUrl: 'help.html',
+  templateUrl: 'directives/help.html',
   controller: ($scope) ->
    $scope.step = ->
     switch $scope.currentStep

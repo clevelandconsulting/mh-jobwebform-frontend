@@ -33,10 +33,89 @@ describe "jobrequest controller", ->
  Then -> expect(@subject.emailListSourceList).toBe(@mockListManager.emailListSourceList)
  Then -> expect(@subject.purposeList).toBe(@mockListManager.purposeList)
  Then -> expect(@subject.productCategoryList).toBe(@mockListManager.productCategoryList)
+ Then -> expect(@subject.customerRequestList).toBe(@mockListManager.customerRequestList)
+ Then -> expect(@subject.distributionChannelList).toBe(@mockListManager.distributionChannelList)
  Then -> expect(@subject.job).toEqual(@mockJob)
  Then -> expect(@subject.notifications).toBe(@mockNotifications)
  Then -> expect(@subject.currentMedium).toEqual(null)
  
+ describe "submit()", ->
+  Given ->
+   @startingPath = '/somepath'
+   @location.path(@startingPath)
+  
+  describe "when job validity is true", ->
+   Given -> spyOn(@mockJob,'isValidForSubmission').andReturn(true)
+   
+   describe "with single collateral", ->
+    Given ->
+     @subject.job.multipleCollateral = 'no'
+     @subject.job.data.collateral = {} 
+     @medium = new @mockPrintDigital
+     @subject.currentMedium = @medium
+    
+    When -> @subject.submit()
+    
+    Then -> expect(@subject.job.data.collateral[@medium.type]).toEqual([@medium])
+    Then -> expect(@location.path()).toEqual('/submit')
+    
+   describe "with multiple collateral", ->
+    Given -> 
+     @subject.job.multipleCollateral = 'yes'
+     @subject.currentMedium = new @mockPrintDigital
+     @subject.job.data.collateral = {}
+   
+    When -> @subject.submit()
+   
+    Then -> expect(@subject.job.data.collateral).toEqual({})
+    Then -> expect(@location.path()).toEqual('/submit')
+  
+  describe "when job validity is false", ->
+   Given ->
+    spyOn(@mockJob,'isValidForSubmission').andReturn(false)
+    spyOn(@mockNotifications,'error')
+    
+   When -> @subject.submit()
+   
+   Then -> expect(@location.path()).toEqual(@startingPath)
+   Then -> expect(@mockNotifications.error).toHaveBeenCalled()
+ 
+ describe "delete()",->
+  Given -> 
+   @medium = 'print-digital'
+   @subject.job.data.collateral[@medium] = ['something', 'anotherthing']
+   
+  describe "when there is an index in the path", ->
+   Given ->
+    @index = 0
+    @location.path('/' + @medium + '/' + (@index+1))
+   
+   When -> @subject.delete()
+   Then -> expect(@location.path('/collateral'))
+   Then -> expect(@subject.job.data.collateral[@medium]).toEqual(['anotherthing'])
+ 
+ describe "cancel()", ->
+  Given -> 
+   @location.path('/somepath')
+   spyOn(@mockJob, "prepare")
+  
+  When -> @subject.cancel()
+  
+  Then -> expect(@location.path()).toEqual('/')
+  Then -> expect(@mockJob.prepare).toHaveBeenCalled()
+ 
+ describe "previous()", ->
+  Given -> @location.path('/somepath')
+  
+  describe "when current step is 1", ->
+   Given -> @subject.currentStep = 1
+   When -> @subject.previous()
+   Then -> expect(@location.path()).toEqual('/')
+   
+  describe "when current step is 2", ->
+   Given -> @subject.currentStep = 2
+   When -> @subject.previous()
+   Then -> expect(@location.path()).toEqual('/')
 
  describe "goToMedium()",->
   Given -> 

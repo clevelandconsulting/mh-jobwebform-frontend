@@ -31,19 +31,11 @@
      <div class='row'>
       <div class='columns small-5'>
        <label>Related Product Category</label>
-       <ul class='scrollable'>
-        <li x-ng-repeat='category in req.productCategoryList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.relatedCategories.indexOf(category.value)>-1]'>
-         <a x-ng-click='req.currentMedium.toggleState(req.productCategoryList.items,$index)'>{{category.value}}</a>
-        </li>
-       </ul>
+       <select-list x-ng-model='req.currentMedium.data.relatedCategories' items='req.productCategoryList.items'></select-list>
       </div>
       <div class='columns small-7'>
        <label>Communication Purpose</label>
-       <ul class='scrollable' style='background-color: white'>
-        <li x-ng-repeat='purpose in req.purposeList.items' x-ng-class='{true:"selected",false:""}[req.currentMedium.data.purposes.indexOf(purpose.value)>-1]'>
-         <a x-ng-click='req.currentMedium.togglePurpose(req.purposeList.items,$index)'>{{purpose.value}}</a>
-        </li>
-       </ul>
+       <select-list x-ng-model='req.currentMedium.data.purposes' items='req.purposeList.items'></select-list>
       </div>
      </div>
      

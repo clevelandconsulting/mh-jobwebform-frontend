@@ -19,6 +19,61 @@ describe "job", ->
  Then -> expect(@subject.data.collateral).toEqual({})
  Then -> expect(@subject.data.requestDate).toEqual(@expectedDate)
  
+ describe "isValidForSubmission()", ->
+  Given -> 
+   @foo = 'foo'
+   @foo2 = 'foo2'
+  describe "when has all required base data", ->
+   Given ->
+    @subject.requestorName = @foo
+    @subject.fieldMarketing = true
+    @subject.product = @foo
+    @subject.costCenter = @foo
+    
+   describe "and single collateral", ->
+    Given -> 
+     @subject.medium = @foo
+     @subject.multipleCollateral = 'no'
+    
+    describe "that is valid", ->
+     Given -> @subject.data.collateral[@foo] = @foo
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(true)
+     
+    describe "that is invalid", ->
+     Given -> @subject.data.collateral[@foo] = undefined
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+   
+   describe "and multiple collateral", ->
+    Given ->
+     @subject.multipleCollateral = 'yes'
+     @subject.mediums[@foo] = true
+     @subject.mediums[@foo2] = true
+    
+    describe "that are all valid", ->
+     Given -> 
+      @subject.data.collateral[@foo] = @foo
+      @subject.data.collateral[@foo2] = @foo2
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(true)
+    
+    describe "that has one invalid", ->
+     Given -> 
+      @subject.data.collateral[@foo] = @foo
+      @subject.data.collateral[@foo2] = undefined
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+    
+    describe "that has all invalid", ->
+     Given -> 
+      @subject.data.collateral[@foo] = undefined
+      @subject.data.collateral[@foo2] = undefined
+     When -> @result = @subject.isValidForSubmission()
+     Then -> expect(@result).toBe(false)
+    
+     
+ 
  describe "addToCollateral()", ->
   Given -> @subject.data.collateral = {} 
    

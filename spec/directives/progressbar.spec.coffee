@@ -6,10 +6,10 @@ describe "progress-bar", ->
   @directiveTemplate =  null #'<div>this is my directive</div>'
   req = new XMLHttpRequest()
   req.onload = => @directiveTemplate = this.responseText
-  req.open "get", "app/templates/progressbar.html", false
+  req.open "get", "app/templates/directives/progressbar.html", false
   req.send()
   
-  $templateCache.put('progressbar.html', @directiveTemplate);
+  $templateCache.put('directives/progressbar.html', @directiveTemplate);
   
  Given ->
   @validTemplate = '<progress-bar current-step="data"></progress-bar>'

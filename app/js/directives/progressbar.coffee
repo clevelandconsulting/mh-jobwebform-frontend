@@ -6,7 +6,7 @@ angular.module('app').directive 'progressBar',  ->
   scope: { currentStep: "=" },
   replace: 'true',
   #template: '<div>this is my directive</div>'
-  templateUrl: 'progressbar.html',
+  templateUrl: 'directives/progressbar.html',
   controller: ($scope) ->
    $scope.step = ->
     if $scope.currentStep < 2

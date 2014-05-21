@@ -1,0 +1,5 @@
+<ul class='scrollable'>
+ <li x-ng-repeat='item in items' x-ng-class='{true:"selected",false:""}[ngModel.indexOf(item.value)>-1]'>
+  <a x-ng-click='toggle($index)'>{{item.value}}</a>
+ </li>
+</ul>

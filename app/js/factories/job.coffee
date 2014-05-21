@@ -1,5 +1,8 @@
 class job
  constructor: ->
+  @prepare()
+  
+ prepare: ->
   today = new Date()
   dd = today.getDate()
   if dd < 10
@@ -10,7 +13,6 @@ class job
   yyyy = today.getFullYear()
   @data = {collateral:{}, requestDate:yyyy + '-' + mm + '-' + dd}
   @mediums = {}
-  
  
  @getter: (name) -> @data[name]
  @setter: (name, value) -> @data[name] = value
@@ -115,5 +117,20 @@ class job
    f == 'sales rep' || f == "consultant"
   else
    false
+ 
+ isValidForSubmission: ->
+  result = true
+  
+  if !@hasMultipleComponents()
+   #console.log 'medium collateral',@data.collateral[@medium]
+   if !@data.collateral[@medium]?
+    result = false
+    
+  else
+   for key of @mediums
+    if !(@data.collateral[key]?)
+     result = false
+  
+  result
 
 angular.module('app').factory 'job', -> job

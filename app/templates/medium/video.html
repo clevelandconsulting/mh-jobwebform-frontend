@@ -1,0 +1,90 @@
+  <form>
+   <div class='row'>
+    <div class='columns small-8'>
+    
+    
+     <div class='row'>
+      <div class='columns small-12'>
+       <label>Deployment Date</label>
+       <div class='small-4'>
+        <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' style='margin-bottom: 0'/>
+       </div>
+       <p><small>*If left blank, a date will be selected for deployment</small></p>
+      </div>
+      
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-5'>
+       <label>Related Product Category</label>
+       <select-list x-ng-model='req.currentMedium.data.relatedCategories' items='req.productCategoryList.items'></select-list>
+      </div>
+      <div class='columns small-7'>
+       <label>Communication Purpose</label>
+       <select-list x-ng-model='req.currentMedium.data.purposes' items='req.purposeList.items'></select-list>
+      </div>
+     </div>
+     
+    </div>    
+    
+    <div class='columns small-4'>
+     <help ng-show='req.currentStep < 3' current-step='req.currentStep' text='req.helpText'></help>
+    </div>
+   
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-4'>
+     <label>Identify primary audience</label>
+     <textarea x-ng-model='req.currentMedium.data.primaryAudience' rows='5'></textarea>
+    </div>
+    <div class='columns small-4'>
+     <label>Identify secondary audience</label>
+     <textarea x-ng-model='req.currentMedium.data.secondaryAudience' rows='5'></textarea>
+    </div>
+    <div class='columns small-4'>
+     <label>Identify tertiary audience</label>
+     <textarea x-ng-model='req.currentMedium.data.tertiaryAudience' rows='5'></textarea>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>What is the purpose for the video creation?</label>
+     <textarea x-ng-model='req.currentMedium.data.videoPurpose' rows='5'></textarea>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>What is the main communication objective for the video?</label>
+     <textarea x-ng-model='req.currentMedium.data.mainObjective' rows='5'></textarea>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>What is the main message/copy points you want to include?</label>
+     <textarea x-ng-model='req.currentMedium.data.mainMessage' rows='5'></textarea>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>Identify the distribution channel(s) for your video</label>
+     <div class='small-5'>
+      <select-list x-ng-model='req.currentMedium.data.channels' items='req.distributionChannelList.items'></select-list>
+     </div>
+    </div>
+   </div>
+   
+   <div class='row'>
+    <div class='columns small-12'>
+     <label>How long will this video live in the market? (months)</label>
+     <div class='small-3'>
+      <input type='number' x-ng-model='req.currentMedium.data.monthsInMarket' />
+     </div>
+    </div>
+   </div>
+   
+  </form>

@@ -11,10 +11,10 @@
     <button x-ng-hide='req.job.hasMultipleComponents()' x-ng-click='req.submit()' class='left'>Submit</button>
     <button x-ng-show='req.job.hasMultipleComponents()' x-ng-click='req.done()' class='left'>Done</button>
     
-    <button x-ng-show='req.job.hasMultipleComponents()' x-ng-click='req.delete()' class='right'>Delete</button>
+    <button x-ng-show='req.job.hasMultipleComponents()' x-ng-click='req.delete()' class='right alert'>Delete</button>
     
     <span x-ng-hide='req.job.hasMultipleComponents()' class='right'>
-     <button x-ng-click='req.previous()'>&lt; Previous</button>&nbsp;<button x-ng-click='req.cancel()'>Cancel</button>
+     <button x-ng-click='req.previous()'>&lt; Previous</button>&nbsp;<button class='alert' x-ng-click='req.cancel()'>Cancel</button>
      
     </span>
    </div>

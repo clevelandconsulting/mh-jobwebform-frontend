@@ -4,7 +4,7 @@
    Step 0:  Start the job request
    Step 1:  Add multiple jobs (might be bypassed if not a multiple job job)
    Step 2:  Update data on a job
-   Step 3:  Submission complete
+   --Step 3:  Submission complete-- MOVED TO JOB SUBMISSION CONTROLLER
 
 
 ###
@@ -28,6 +28,8 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
    @emailListSourceList = @listManager.emailListSourceList
    @purposeList = @listManager.purposeList
    @productCategoryList = @listManager.productCategoryList
+   @customerRequestList = @listManager.customerRequestList
+   @distributionChannelList = @listManager.distributionChannelList
    @helpText = 'Here is the help!'
    @setCurrentStep()
    @mediumGang = @mediumList.gangByCount(3)
@@ -42,7 +44,6 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
    else
     ''
 
-  
   toTitleCase: (str) ->
    fn = (txt) -> txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
    return str.replace(/([^\W_]+[^\s-]*) */g, fn )
@@ -112,6 +113,38 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
   goToMedium: (medium,index) ->
    number = parseInt(index)+1;
    @location.path '/' + medium + '/' + number
+  
+  deleteCollateral: (mediumType, index) ->
+   if mediumType? and index? and !isNaN(index) and index >= 0
+    @job.data.collateral[mediumType].splice(index,1)
+  
+  submit: ->
+   if !@job.hasMultipleComponents() 
+    @addCurrentMedium()
+    
+   if @job.isValidForSubmission()
+    @location.path('/submit')
+   else
+    @notifications.error('Not everything required has been filled out.')
+  
+  delete: ->
+   arr = @getIndexAndMediumType()
+   index = arr[0]
+   mediumType = arr[1]
+   
+   if index? && !isNaN(index) && index >= 0
+    if @job.data.collateral[mediumType]? and @job.data.collateral[mediumType][index]
+     @deleteCollateral(mediumType,index)
+   
+   @location.path('/collateral')
+  
+  previous: ->
+   if @currentStep=1 or @currentStep=2
+    @location.path('/')
+  
+  cancel: ->
+   @job.prepare()
+   @location.path('/')
   
   next: (inValid) ->
    @submitted = true
