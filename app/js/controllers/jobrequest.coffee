@@ -10,9 +10,9 @@
 ###
 
 
-angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$rootScope',
+angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$rootScope', '$routeParams'
  class jobRequestController
-  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope) ->
+  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams) ->
    @currentMedium = @getCurrentMedium()
    
    #pull out list services

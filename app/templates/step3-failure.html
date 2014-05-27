@@ -1,0 +1,20 @@
+
+  <div class='row'>
+   <div class='columns small-12'>
+    <div class='error-panel round'>
+     <h3><i class='foundicon-error'></i>&nbsp;Submitting Job Request</h3>
+     <p>Your job request submission failed. {{ req.message }}</p>
+    </div>
+   </div>
+  </div>
+  
+  <div class='row'>
+   <div class='columns small-6 text-right'>
+    <button x-ng-click='req.submitJobRequest()'>Try Again</button>
+   </div>
+   
+   <div class='columns small-6 text-left'>
+    <button x-ng-click='req.step1()'>Back To Step 1</button>
+   </div>
+  </div>
+

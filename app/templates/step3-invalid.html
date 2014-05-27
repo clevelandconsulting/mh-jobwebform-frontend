@@ -1,0 +1,23 @@
+  <div class='row'>
+   <div class='columns small-12'>
+       <div class='error-panel radius round'>
+        <h3><i class='foundicon-error'></i>&nbsp;Submitting Job Request</h3>
+        <p>Your job is not valid for submission! Please fill out the required details and all collateral required.</p>
+       </div>
+   </div>
+  </div>
+  <div class='row' x-ng-show='req.displayStep2Button()'>
+   <div class='columns small-6 text-right'>
+    <button x-ng-click='req.step1()'>Step 1</button>
+   </div>
+   
+   <div class='columns small-6 text-left'>
+    <button x-ng-click='req.step2()'>Step 2</button>
+   </div>
+  </div>
+  <div class='row' x-ng-hide='req.displayStep2Button()'>
+   <div class='columns small-12 text-center'>
+    <button x-ng-click='req.step1()'>Step 1</button>
+   </div>
+  </div>
+

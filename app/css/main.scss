@@ -23,6 +23,28 @@ $body-font-family: 'Aurm Sans', Arial, sans-serif !default;
   font-weight: normal;
   font-style: normal;
 }
+
+.success-panel {
+  @include panel(
+    // Sets the panel background color. Default: $panel-pg
+    $bg:#B6E1A8,
+    // Sets the panel padding amount. Default: $panel-padding
+    $padding:20px,
+    // Sets the font color based on the darkness of the bg & resets header line-heights for panels. Default: $panel-header-adjust
+    $adjust:true
+  );
+}
+
+.error-panel {
+  @include panel(
+    // Sets the panel background color. Default: $panel-pg
+    $bg:#EA9999,
+    // Sets the panel padding amount. Default: $panel-padding
+    $padding:20px,
+    // Sets the font color based on the darkness of the bg & resets header line-heights for panels. Default: $panel-header-adjust
+    $adjust:true
+  );
+}
  
 [class*="foundicon-"] {
   display: inline;

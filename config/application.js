@@ -39,7 +39,8 @@ module.exports = function(lineman) {
      webfonts: {
       files: {
         "vendor/fonts/foundation-general-enclosed/fonts/": "vendor/fonts/foundation-general-enclosed/fonts/**/*.*"
-      }
+      },
+      root: "fonts"
      },
     
      enableSass: true,

@@ -1,7 +1,7 @@
 angular.module('app').config ['$routeProvider', (routeProvider) ->
  routeProvider
  .when('/', {controller:'jobrequestController', controllerAs:'req', templateUrl:'main.html'})
- .when('/submit', {controller:'jobsubmissionController', controllerAs:'req', templateUrl:'main.html'})
+ .when('/submit/:test?', {controller:'jobsubmissionController', controllerAs:'req', templateUrl:'main.html'})
  .when('/collateral', {controller:'jobrequestController', controllerAs:'req', templateUrl: 'main.html'})
  .when('/print-digital/:index?',{controller:'jobrequestController', controllerAs:'req', templateUrl: 'main.html'})
  .when('/webinar/:index?',{controller:'jobrequestController', controllerAs:'req', templateUrl: 'main.html'})

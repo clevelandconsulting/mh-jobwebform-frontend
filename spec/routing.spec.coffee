@@ -16,7 +16,7 @@ describe "routes", ->
   Then -> expect(@collateralRoute.templateUrl).toBe('main.html')
   
  describe "submit route", ->
-  When -> @collateralRoute = @route.routes['/submit']
+  When -> @collateralRoute = @route.routes['/submit/:test?']
   Then -> expect(@collateralRoute.controller).toBe('jobsubmissionController')
   Then -> expect(@collateralRoute.templateUrl).toBe('main.html')
 
