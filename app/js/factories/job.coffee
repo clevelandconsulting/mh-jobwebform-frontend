@@ -78,6 +78,14 @@ class job
    get: -> @data.districtManager
    set: (value) -> @data.districtManager = value
   
+  districtManager:
+   get: -> @data.districtManager
+   set: (value) -> @data.districtManager = value
+
+  creativeBrief:
+   get: -> @data.creativeBrief
+   set: (value) -> @data.creativeBrief = value
+
  noMediums: ->
   if @data.mediums?
    for key of @data.mediums

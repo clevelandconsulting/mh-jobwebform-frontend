@@ -252,6 +252,12 @@ describe "job", ->
    When -> @subject.districtManager = @somedata
    Then -> expect(@subject.data.districtManager).toBe(@somedata)
    Then -> expect(@subject.districtManager).toBe(@somedata)
+   
+  describe 'creativeBrief', ->
+   When -> @subject.creativeBrief = @somedata
+   Then -> expect(@subject.data.creativeBrief).toBe(@somedata)
+   Then -> expect(@subject.creativeBrief).toBe(@somedata)
+
  
  describe "hasMultipleComponents()", ->
   Given -> @subject.data = {}   

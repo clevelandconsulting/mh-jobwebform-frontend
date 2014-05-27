@@ -10,9 +10,9 @@
 ###
 
 
-angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$rootScope', '$routeParams'
+angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$scope', '$routeParams', '$fileUploader'
  class jobRequestController
-  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams) ->
+  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams, @fileUploader) ->
    @currentMedium = @getCurrentMedium()
    
    #pull out list services
@@ -34,8 +34,105 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
    @setCurrentStep()
    @mediumGang = @mediumList.gangByCount(3)
    @changeTemplate()
-   @scope.$on 'invalid', -> console.log 'invalid!!'
-   #console.log 'constructd', @currentStep
+   
+   uploader = @scope.uploader = @fileUploader.create({
+    scope: @scope,                          # to automatically update the html. Default: $rootScope
+    url: 'http://mh-jobwebform-backend.dev/upload.php',
+    formData: [
+      { key: 'value' }
+    ],
+    withCredentials: true,
+    filters: [
+     (item) ->                    # first user filter
+        console.info 'filter1' 
+        true
+    ]
+    })
+
+
+   # ADDING FILTERS
+
+   uploader.filters.push( (item) ->  # second user filter
+       console.info('filter2')
+       true
+   )
+
+   # REGISTER HANDLERS
+
+   uploader.bind('afteraddingfile', (event, item) ->
+    console.info('After adding a file', item)
+    item.progress = 0
+    item.upload()
+   )
+
+   uploader.bind('whenaddingfilefailed', (event, item) =>
+       console.info('When adding a file failed', item)
+       @notifications.error('Failed to add the file ' + item.file.name +  '.') 
+   )
+
+   uploader.bind('afteraddingall', (event, items) ->
+       console.info('After adding all files', items)
+   )
+
+   uploader.bind('beforeupload', (event, item) ->
+       console.info('Before upload', item)
+   )
+
+   uploader.bind('progress', (event, item, progress) ->
+       console.info('Progress: ' + progress, item)
+   )
+
+   uploader.bind('success', (event, xhr, item, response) =>
+       console.info('Success', xhr, item, response)
+       if !@job.creativeBrief
+         @job.creativeBrief = []
+         
+       index = @job.creativeBrief.indexOf(item.file.name)
+       if ( index == -1 )
+        @job.creativeBrief.push(item.file.name)
+        item.addedToBrief = true
+   )
+
+   uploader.bind('cancel', (event, xhr, item) =>
+       console.info('Cancel', xhr, item)
+       @removeCreativeBriefItem(item)
+   )
+
+   uploader.bind('error', (event, xhr, item, response) =>
+       console.info('Error', xhr, item, response)
+       msg = item.file.name + ' failed to upload.';
+       if response?
+        if response.answer?
+         msg = msg + ' ' + response.answer
+        else
+         msg = msg + ' ' + response
+        
+       @notifications.error( msg )
+       @removeCreativeBriefItem(item)
+   )
+
+   uploader.bind('complete', (event, xhr, item, response) ->
+       console.info('Complete', xhr, item, response)
+   )
+
+   uploader.bind('progressall', (event, progress) ->
+       console.info('Total progress: ' + progress)
+   )
+
+   uploader.bind('completeall', (event, items) ->
+       console.info('Complete all', items)
+   )
+   
+  
+  removeItem: (item) ->
+   item.remove()
+   @removeCreativeBriefItem(item)
+  
+  removeCreativeBriefItem: (item) ->
+   if @job.creativeBrief? and item.addedToBrief
+    index = @job.creativeBrief.indexOf(item.file.name)
+    if ( index > -1 )
+     @job.creativeBrief.splice(index,1)
   
   keyToHeader: (key) ->
    if key? & key != ''

@@ -15,7 +15,7 @@ describe "jobrequest controller", ->
   @mockwebinar = webinar
   @location = $location
   @location.path('/')
-  @subject = $controller 'jobrequestController', {listManager:@mockListManager, jobService:@mockJob, printdigital:@mockPrintDigital, notifications:@mockNotifications, location:@location}
+  @subject = $controller 'jobrequestController', {listManager:@mockListManager, jobService:@mockJob, printdigital:@mockPrintDigital, notifications:@mockNotifications, $location:@location, $scope:@scope}
   
  Then -> expect(@subject).toBeDefined()
  Then -> expect(@subject.currentStep).toBe(0)
