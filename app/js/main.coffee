@@ -1,4 +1,4 @@
-angular.module "app", ['ngRoute', 'angularFileUpload']
+angular.module "app", ['ngRoute', 'angularFileUpload', 'uuid']
 
 angular.module('app').run ['$rootScope', '$timeout', ($rootScope, $timeout) ->
  $rootScope.$on '$viewContentLoaded', ->

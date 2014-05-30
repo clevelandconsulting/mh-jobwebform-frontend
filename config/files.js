@@ -31,6 +31,7 @@ module.exports = function(lineman) {
          "vendor/bower/autofill-event/src/autofill-event.js",
          "vendor/bower/angular-route/angular-route.js",
          "vendor/bower/angular-file-upload/angular-file-upload.js",
+         "vendor/bower/angular-uuid-service/uuid-svc.js",
          "vendor/js/**/*.js"  //Note that this glob remains for traditional vendor libs
      ],
      specHelpers: [

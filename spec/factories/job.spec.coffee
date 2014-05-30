@@ -15,6 +15,7 @@ describe "job", ->
   @expectedDate = yyyy + '-' + mm + '-' + dd
   
  Then -> expect(@subject).toBeDefined()
+ Then -> expect(@subject.sessionId).toBeDefined()
  Then -> expect(@subject.mediums).toEqual({})
  Then -> expect(@subject.data.collateral).toEqual({})
  Then -> expect(@subject.data.requestDate).toEqual(@expectedDate)

@@ -34,55 +34,58 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
    @setCurrentStep()
    @mediumGang = @mediumList.gangByCount(3)
    @changeTemplate()
+   sessionId = @job.sessionId
    
-   uploader = @scope.uploader = @fileUploader.create({
+   @uploader = @fileUploader.create({
     scope: @scope,                          # to automatically update the html. Default: $rootScope
     url: 'http://mh-jobwebform-backend.dev/upload.php',
-    formData: [
-      { key: 'value' }
-    ],
-    withCredentials: true,
+    formData: [{ uuid: sessionId }],
+    withCredentials: true
     filters: [
      (item) ->                    # first user filter
-        console.info 'filter1' 
+        console.info 'filter1', item
         true
     ]
-    })
+   })
 
 
    # ADDING FILTERS
 
-   uploader.filters.push( (item) ->  # second user filter
+   @uploader.filters.push( (item) ->  # second user filter
        console.info('filter2')
        true
    )
 
    # REGISTER HANDLERS
 
-   uploader.bind('afteraddingfile', (event, item) ->
+   @uploader.bind('afteraddingfile', (event, item) ->
     console.info('After adding a file', item)
-    item.progress = 0
-    item.upload()
+    #if ( !item.isError )
+    # item.progress = 0
+    # item.upload()
    )
 
-   uploader.bind('whenaddingfilefailed', (event, item) =>
+   @uploader.bind('whenaddingfilefailed', (event, item) =>
        console.info('When adding a file failed', item)
        @notifications.error('Failed to add the file ' + item.file.name +  '.') 
    )
 
-   uploader.bind('afteraddingall', (event, items) ->
+   @uploader.bind('afteraddingall', (event, items) ->
        console.info('After adding all files', items)
+       for item in items
+        item.progress = 0;
+        item.upload()
    )
 
-   uploader.bind('beforeupload', (event, item) ->
+   @uploader.bind('beforeupload', (event, item) ->
        console.info('Before upload', item)
    )
 
-   uploader.bind('progress', (event, item, progress) ->
+   @uploader.bind('progress', (event, item, progress) ->
        console.info('Progress: ' + progress, item)
    )
 
-   uploader.bind('success', (event, xhr, item, response) =>
+   @uploader.bind('success', (event, xhr, item, response) =>
        console.info('Success', xhr, item, response)
        if !@job.creativeBrief
          @job.creativeBrief = []
@@ -93,13 +96,14 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
         item.addedToBrief = true
    )
 
-   uploader.bind('cancel', (event, xhr, item) =>
+   @uploader.bind('cancel', (event, xhr, item) =>
        console.info('Cancel', xhr, item)
        @removeCreativeBriefItem(item)
    )
 
-   uploader.bind('error', (event, xhr, item, response) =>
+   @uploader.bind('error', (event, xhr, item, response) =>
        console.info('Error', xhr, item, response)
+       console.info(xhr.getResponseHeader('X-ERROR'))
        msg = item.file.name + ' failed to upload.';
        if response?
         if response.answer?
@@ -111,15 +115,15 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
        @removeCreativeBriefItem(item)
    )
 
-   uploader.bind('complete', (event, xhr, item, response) ->
+   @uploader.bind('complete', (event, xhr, item, response) ->
        console.info('Complete', xhr, item, response)
    )
 
-   uploader.bind('progressall', (event, progress) ->
+   @uploader.bind('progressall', (event, progress) ->
        console.info('Total progress: ' + progress)
    )
 
-   uploader.bind('completeall', (event, items) ->
+   @uploader.bind('completeall', (event, items) ->
        console.info('Complete all', items)
    )
    
