@@ -28,10 +28,8 @@ angular.module('app').controller 'jobsubmissionController', [ 'jobService', 'url
    @loadTemplate @templates.failure
    
   submitJobRequest: (logging) ->
-   if logging
-    console.log 'VALIDJOBREQUEST:', @validJobRequest
    if @validJobRequest
-    result = @urlService.postJobRequestData(@job.data)
+    result = @urlService.postJobRequestData({data: @job.data, sessionId: @job.sessionId} )
     result.then @success, @error
    else 
     @loadTemplate @templates.invalid

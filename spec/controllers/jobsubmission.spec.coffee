@@ -121,13 +121,18 @@ describe "jobsubmission controller", ->
    @subject = @controller 'jobsubmissionController', {jobService:@mockJob, urlService:@mockUrl, notifications:@mockNotifications, location:@location}
  
   describe "checkForValidity()", ->
-   Given -> @mockJob.prepare()
+   Given -> 
+    @mockJob.prepare()
+    @mockJob.sessionId = @subject.job.sessionId
+    
    When -> @result = @subject.checkForValidity()
    Then -> expect(@mockJob.isValidForSubmission).toHaveBeenCalled()
    
   describe "submitJobRequest()", -> 
    describe "when job is valid for submission", ->
-    Given -> @subject.validJobRequest = true
+    Given ->
+     @expectedData = {data: @mockJob.data, sessionId: @mockJob.sessionId} 
+     @subject.validJobRequest = true
     
     describe "when response succeeds", ->
      Given -> 
@@ -147,7 +152,7 @@ describe "jobsubmission controller", ->
       #@promise.then (data) => @result = data
       @scope.$apply()
       
-     Then -> expect(@mockUrl.postJobRequestData).toHaveBeenCalledWith(@mockJob.data)
+     Then -> expect(@mockUrl.postJobRequestData).toHaveBeenCalledWith(@expectedData)
      Then -> expect(@subject.message).toBe(@apiResponse)
      Then -> expect(@subject.template).toBe('step3-success.html')
      Then -> expect(@mockJob.data).toEqual(@expectedJob.data)
@@ -159,7 +164,7 @@ describe "jobsubmission controller", ->
       #@promise.then (data) => @result = data
       @scope.$apply()
       
-     Then -> expect(@mockUrl.postJobRequestData).toHaveBeenCalledWith(@mockJob.data)
+     Then -> expect(@mockUrl.postJobRequestData).toHaveBeenCalledWith(@expectedData)
      Then -> expect(@subject.message).toBe(@apiResponse)
      Then -> expect(@subject.template).toBe('step3-failure.html')
    

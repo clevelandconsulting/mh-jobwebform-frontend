@@ -23,6 +23,9 @@ angular.module('app').factory 'dropdownFromJson', ['$http', 'dropdown', ($http, 
       name = value
      else if value == null
       value = name
-      
-     @add(name, value)
+     
+     delete item.name
+     delete item.value
+     
+     @add(name, value, item)
 ]

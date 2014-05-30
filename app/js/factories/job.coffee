@@ -36,8 +36,29 @@ angular.module('app').factory 'job', ['rfc4122', (rfc4122) ->
    
    product:
     get: -> @data.product
-    set: (value) -> @data.product = value
+    set: (value) -> 
+     @data.product = value
+     
+     if value.value?
+      @productValue = value.value
+     else 
+      if value.name?
+       @productValue = value.name
+      else
+       @productValue = value 
+     
+     if value.portfolio?
+      @portfolio = value.portfolio
+     
+     if value.discipline?
+      @discipline = value.discipline
+    
+     return
    
+   productValue:
+    get: -> @data.productValue
+    set: (value) -> @data.productValue = value
+    
    portfolio:
     get: -> @data.portfolio
     set: (value) -> @data.portfolio = value

@@ -26,12 +26,16 @@ angular.module('app').factory 'dropdown', ['$http', ($http) ->
       
      @add(name, value)
   
-  add: (name, value) ->
+  add: (name, value, other) ->
    if name?
     if !value? 
      value = name
     
     obj = {name: name, value: value}
+    
+    if other? and other != ''
+     jQuery.extend(obj, other)
+     
     @items.push obj
    
   gangByCount: (count) ->

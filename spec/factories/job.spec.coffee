@@ -197,7 +197,12 @@ describe "job", ->
    When -> @subject.product = @somedata
    Then -> expect(@subject.data.product).toBe(@somedata)
    Then -> expect(@subject.product).toBe(@somedata)
- 
+  
+  describe 'productValue', ->
+   When -> @subject.productValue = @somedata
+   Then -> expect(@subject.data.productValue).toBe(@somedata)
+   Then -> expect(@subject.productValue).toBe(@somedata)
+
   describe 'portfolio', ->
    When -> @subject.portfolio = @somedata
    Then -> expect(@subject.data.portfolio).toBe(@somedata)

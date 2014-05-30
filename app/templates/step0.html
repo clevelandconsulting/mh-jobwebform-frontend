@@ -43,7 +43,8 @@
      <div class='row'>
       <div class='columns small-12' ng-class="{ 'error' : jobform.product.$invalid && ( !jobform.product.$pristine || req.submitted ) }">
        <label>Identify Product*</label>
-       <select type='text' name='product' required x-ng-model='req.job.product' x-ng-options='product.value as product.name for product in req.productList.items'><option value=''>Select Product</option></select>
+       <!-- x-ng-options='product.value as product.name for product in req.productList.items' -->
+       <select type='text' name='product' required x-ng-model='req.job.product' x-ng-options='product as product.name group by product.discipline for product in req.productList.items | orderBy:["discipline","name"]' ><option value=''>Select Product</option></select>
        <small class='error' ng-show="jobform.product.$invalid && ( !jobform.product.$pristine || req.submitted )">Please select a product from the list</small>
       </div>
      </div>
@@ -145,7 +146,7 @@
      <label>Attach Creative Brief</label>
      <table x-ng-show='req.uploader.queue.length > 0' class='minimal noAlternateColor' style='width: 100%'>
       <tr x-ng-repeat='item in req.uploader.queue'>
-       <td><strong>{{ item.file.name }}</strong></td>
+       <td nowrap><strong>{{ item.file.name }}</strong></td>
        <td ng-show="req.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
        <td ng-show="req.uploader.isHTML5" style='width: 100%; vertical-align: middle;'>
         <div class='small-12 progress success radius round {{ item.isError ? "alert" : "" }}' style='margin: 0'>
@@ -162,80 +163,17 @@
        </td>
       </tr>
      </table>
-     <div ng-show="req.uploader.isHTML5">
+     <div ng-show="req.uploader.isHTML5 && req.uploader.queue.length == 0">
       <!-- 3. ng-file-over | ng-file-over="className" -->
-      <div class="drop-zone-panel" ng-file-over='drop-zone-hover-panel'>
+      <div class="drop-zone-panel round radius" ng-file-over='drop-zone-hover-panel'>
           Drag Your Files Here To Upload
       </div>
+     </div>
+     
+     <div ng-hide='req.uploader.isHTML5 || req.uploader.queue.length > 0'>
       <input ng-file-select type="file" />
      </div>
      
-     <div ng-hide='req.uploader.isHTML5'>
-      <input ng-file-select type="file" />
-     </div>
-     
-    </div>
-   </div>
-   
-   <div class='row'>
-    <h3>Upload queue</h3>
-    <p>Queue length: {{ req.uploader.queue.length }}</p>
- 
-    <table class="table">
-     <thead>
-      <tr>
-          <th width="50%">Name</th>
-          <th ng-show="req.uploader.isHTML5">Size</th>
-          <th ng-show="req.uploader.isHTML5">Progress</th>
-          <th>Status</th>
-          <th>Actions</th>
-      </tr>
-     </thead>
-     <tbody>
-      <tr ng-repeat="item in req.uploader.queue">
-       <td><strong>{{ item.file.name }}</strong></td>
-       <td ng-show="req.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-       <td ng-show="req.uploader.isHTML5">
-        <div class="progress" style="margin-bottom: 0;">
-         <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-        </div>
-       </td>
-       <td class="text-center">
-        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-       </td>
-       <td nowrap>
-        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-          <span class="glyphicon glyphicon-upload"></span> Upload
-        </button>
-        <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
-          <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-        </button>
-        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-          <span class="glyphicon glyphicon-trash"></span> Remove
-        </button>
-       </td>
-      </tr>
-     </tbody>
-    </table>
- 
-    <div>
-     <p>
-      Queue progress:
-      <div class="progress" style="">
-       <div class="progress-bar" role="progressbar" ng-style="{ 'width': req.uploader.progress + '%' }"></div>
-      </div>
-     </p>
-     <button type="button" class="btn btn-success btn-s" ng-click="req.uploader.uploadAll()" ng-disabled="!req.uploader.getNotUploadedItems().length">
-         <span class="glyphicon glyphicon-upload"></span> Upload all
-     </button>
-     <button type="button" class="btn btn-warning btn-s" ng-click="req.uploader.cancelAll()" ng-disabled="!req.uploader.isUploading">
-         <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-     </button>
-     <button type="button" class="btn btn-danger btn-s" ng-click="req.uploader.clearQueue()" ng-disabled="!req.uploader.queue.length">
-         <span class="glyphicon glyphicon-trash"></span> Remove all
-     </button>
     </div>
    </div>
    
