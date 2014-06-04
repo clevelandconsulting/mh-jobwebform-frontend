@@ -1,8 +1,8 @@
 class urlService
  constructor: (@$http, @$q) ->
-  @jobRequestPostURL = 'http://localhost:8000/jobpost'
+  @jobRequestPostURL = 'http://mh-jobwebform-backend.dev/index.php'
  
- postJobRequestData: (data) ->
+ postJobRequestData: (data, sessionId) ->
   #@$http.post(@jobRequestPostURL, data)
   
   d = @$q.defer()
@@ -18,7 +18,27 @@ class urlService
     
    d.reject "There was a problem posting your job. " + message
    
-  @$http.post(@jobRequestPostURL, data).then successFn, errorFn  
+  @$http.post(@jobRequestPostURL + '?action=sendjob&sessionId='+sessionId, {data:data}).then successFn, errorFn  
+  d.promise
+  
+ 
+ deleteItemFromServer: (item, sessionId) ->
+  d = @$q.defer()
+   
+  successFn = (response) =>
+   results = 'The file was successfully deleted.'
+   d.resolve results
+  errorFn = (response) =>
+   message = ''
+   switch response.status
+    when 500 then message = "The server gave an error."
+    when 401 then message = "This user is not authorized to delete."
+    when 404 then message = "Could not find the posting page."
+    when 413 then message = "The request was too large."
+    
+   d.reject "There was a problem deleting the file. " + message
+   
+  @$http.delete(@jobRequestPostURL + '?action=upload&name='+ item.file.name + '&sessionId=' + sessionId ).then successFn, errorFn  
   d.promise
   
 

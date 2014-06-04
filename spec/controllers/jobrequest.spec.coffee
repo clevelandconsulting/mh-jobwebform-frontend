@@ -2,8 +2,9 @@
 
 describe "jobrequest controller", ->
  Given -> module 'app'
- Given angular.mock.inject ($rootScope, $controller, $location, listManager, jobService, printdigital, email, micrositesplash, socialmedia, video, webinar,notifications) ->
+ Given angular.mock.inject ($rootScope, $controller, $location, urlService, listManager, jobService, printdigital, email, micrositesplash, socialmedia, video, webinar,notifications, $q, $httpBackend) ->
   @scope = $rootScope.$new()
+  @mockUrlService = urlService
   @mockJob = jobService
   @mockListManager = listManager
   @mockNotifications = notifications
@@ -15,7 +16,9 @@ describe "jobrequest controller", ->
   @mockwebinar = webinar
   @location = $location
   @location.path('/')
-  @subject = $controller 'jobrequestController', {listManager:@mockListManager, jobService:@mockJob, printdigital:@mockPrintDigital, notifications:@mockNotifications, $location:@location, $scope:@scope}
+  @q = $q
+  @httpBackend = $httpBackend
+  @subject = $controller 'jobrequestController', {listManager:@mockListManager, jobService:@mockJob, printdigital:@mockPrintDigital, notifications:@mockNotifications, $location:@location, $scope:@scope, urlService:@mockUrlService}
   
  Then -> expect(@subject).toBeDefined()
  Then -> expect(@subject.currentStep).toBe(0)
@@ -84,6 +87,7 @@ describe "jobrequest controller", ->
   Given -> 
    @medium = 'print-digital'
    @subject.job.data.collateral[@medium] = ['something', 'anotherthing']
+   
    
   describe "when there is an index in the path", ->
    Given ->
@@ -165,7 +169,58 @@ describe "jobrequest controller", ->
   
    Then -> expect(@subject.job.data.collateral['print-digital']).toEqual(@expectedResult)
    Then -> expect(@location.path()).toEqual('/collateral')
-
+ 
+ describe "removeCreativeBriefItem ()", ->
+  Given ->
+   @file = "anything"
+   @anotherFile = 'anything else'
+   @apiResponse = 'foo'
+   @apiResponseFunction = (data) =>
+    if @succeedPromise
+     @q.when @apiResponse
+    else
+     @q.reject @apiResponse
+   spyOn(@mockUrlService,"deleteItemFromServer").andCallFake @apiResponseFunction
+   
+  describe "when added to the creative brief", ->
+   Given ->
+    @item = {addedToBrief:true, file: {name: @file} }
+    @subject.job.sessionId = 'anything'
+    
+   describe "and file is uploaded and deleted unsuccessfully", ->
+    Given -> 
+     @item['isUploaded'] = @item['isSuccess'] = true
+     @succeedPromise = false
+     @httpBackend.whenGET(/listdata*/).respond(200,{})
+     spyOn(@mockNotifications,"error")
+     
+    When -> 
+     @subject.removeCreativeBriefItem(@item)
+     @scope.$apply()
+     
+    Then -> expect(@mockUrlService.deleteItemFromServer).toHaveBeenCalledWith(@item, @subject.job.sessionId)
+    Then -> expect(@mockNotifications.error).toHaveBeenCalledWith(@apiResponse)
+   
+   describe "and file is not uploaded", ->
+    Given -> @item['isUploaded'] = false
+    When -> @subject.removeCreativeBriefItem(@item)
+    Then -> expect(@mockUrlService.deleteItemFromServer).not.toHaveBeenCalledWith(@item, @subject.job.sessionId)
+   
+   describe "and the file is in the brief", ->
+    Given ->
+     @subject.job.creativeBrief = [@file,@anotherFile]
+     @expectedBrief = [@anotherFile]
+   
+    When -> @subject.removeCreativeBriefItem(@item)
+    Then -> expect(@subject.job.creativeBrief).toEqual(@expectedBrief)
+  
+   describe "and the file is not in the brief", ->
+    Given ->
+     @subject.job.creativeBrief = [@anotherFile]
+     @expectedBrief = [@anotherFile]
+    
+    When -> @subject.removeCreativeBriefItem(@item)
+    Then -> expect(@subject.job.creativeBrief).toEqual(@expectedBrief)
  
  describe "keyToHeader()", ->
   Given -> 

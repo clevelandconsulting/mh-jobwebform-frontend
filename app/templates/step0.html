@@ -144,11 +144,11 @@
    <div class='row'>
     <div class='columns small-12'>
      <label>Attach Creative Brief</label>
-     <table x-ng-show='req.uploader.queue.length > 0' class='minimal noAlternateColor' style='width: 100%'>
-      <tr x-ng-repeat='item in req.uploader.queue'>
+     <table x-ng-show='req.job.uploader.queue.length > 0' class='minimal noAlternateColor' style='width: 100%'>
+      <tr x-ng-repeat='item in req.job.uploader.queue'>
        <td nowrap><strong>{{ item.file.name }}</strong></td>
-       <td ng-show="req.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-       <td ng-show="req.uploader.isHTML5" style='width: 100%; vertical-align: middle;'>
+       <td ng-show="req.job.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+       <td ng-show="req.job.uploader.isHTML5" style='width: 100%; vertical-align: middle;'>
         <div class='small-12 progress success radius round {{ item.isError ? "alert" : "" }}' style='margin: 0'>
          <span class="meter" ng-style="{ 'width': item.progress + '%' }"></span>
         </div>
@@ -163,14 +163,14 @@
        </td>
       </tr>
      </table>
-     <div ng-show="req.uploader.isHTML5 && req.uploader.queue.length == 0">
+     <div ng-show="req.job.uploader.isHTML5 && req.job.uploader.queue.length == 0">
       <!-- 3. ng-file-over | ng-file-over="className" -->
       <div class="drop-zone-panel round radius" ng-file-over='drop-zone-hover-panel'>
           Drag Your Files Here To Upload
       </div>
      </div>
      
-     <div ng-hide='req.uploader.isHTML5 || req.uploader.queue.length > 0'>
+     <div ng-hide='req.job.uploader.isHTML5 || req.job.uploader.queue.length > 0'>
       <input ng-file-select type="file" />
      </div>
      
