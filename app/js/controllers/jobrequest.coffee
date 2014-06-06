@@ -36,7 +36,81 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
    @changeTemplate()
    sessionId = @job.sessionId
    
-   if !@job.uploader?   
+   success = (event, xhr, item, response) =>
+    if !data
+      data = []
+      
+    index = data.indexOf(item.file.name)
+    if ( index == -1 )
+     data.push(item.file.name)
+     item.addedToData = true
+     @notifications.success('Your file was successfully uploaded!')
+    
+    data
+   cancel = (event, xhr, item, type) => @removeItemFromData(item,type)
+   error = (event, xhr, item, response, type) =>
+       msg = item.file.name + ' failed to upload.';
+       if response?
+        if response.answer?
+         msg = msg + ' ' + response.answer
+        else
+         msg = msg + ' ' + response
+        
+       @notifications.error( msg )
+       @removeItemFromData(item, type)
+   
+   afterAddingFile = (event, item) ->
+    if ( !item.isError )
+     item.formData[0]['alias'] = item.alias
+     item.progress = 0
+     item.upload()
+
+   whenAddingFileFailed = (event, item) => @notifications.error('Failed to add the file ' + item.file.name +  '.')
+   
+   successCreativeBrief = (event, xhr, item, response) => @job.creativeBrief = success(event,xhr,item,response)
+   successCurrentMedium = (event, xhr, item, response) => @currentMedium.data.photo = success(event,xhr,item,response)
+   
+   cancelCreativeBrief = (event, xhr, item) => cancel(event,xhr,item,'creativeBrief')
+   cancelCurrentMedium = (event, xhr, item) => cancel(event,xhr,item,'currentMedium.photo')
+   
+   errorCreativeBrief = (event, xhr, item, response) => error(event,xhr,item,response,'creativeBrief')
+   errorCurrentMedium = (event, xhr, item, response) => error(event,xhr,item,response,'currentMedium.photo')
+   
+   @job.uploader = '';
+   
+   if @currentMedium?
+    @currentMedium.uploader = @fileUploader.create({
+     scope: @scope,                          # to automatically update the html. Default: $rootScope
+     url: @urlService.jobRequestPostURL + '?action=upload&sessionId=' + sessionId,
+     formData: [
+      { }
+     ],
+     withCredentials: true
+     filters: []
+    })
+    
+    if @currentMedium.data.photo? > 0
+     for file in @currentMedium.data.photo
+      item = {
+       file: {
+           name: file,
+       },
+       progress: 100,
+       isUploaded: true,
+       isSuccess: true
+      }
+      item.remove = => @currentMedium.uploader.removeFromQueue(this);
+      
+      @currentMedium.uploader.queue.push(item);
+     @currentMedium.uploader.progress = 100;
+     
+    @currentMedium.uploader.bind('cancel', cancelCurrentMedium)
+    @currentMedium.uploader.bind('error', errorCurrentMedium)
+    @currentMedium.uploader.bind('afteraddingfile', afterAddingFile)
+    @currentMedium.uploader.bind('whenaddingfilefailed', whenAddingFileFailed) 
+    @currentMedium.uploader.bind('success', successCurrentMedium)
+   
+   else   
     @job.uploader = @fileUploader.create({
      scope: @scope,                          # to automatically update the html. Default: $rootScope
      url: @urlService.jobRequestPostURL + '?action=upload&sessionId=' + sessionId,
@@ -44,111 +118,84 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
       { }
      ],
      withCredentials: true
-     filters: [
-      (item) ->                    # first user filter
-         #console.info 'filter1', item
-         true
-     ]
+     filters: []
     })
- 
- 
+    
+    if @job.creativeBrief?
+     for file in @job.creativeBrief
+      item = {
+       file: {
+           name: file,
+       },
+       progress: 100,
+       isUploaded: true,
+       isSuccess: true
+      }
+      item.remove = => @job.uploader.removeFromQueue(this);
+      
+      @job.uploader.queue.push(item);
+     @job.uploader.progress = 100;
+      
+     
     # ADDING FILTERS
- 
+    ### 
     @job.uploader.filters.push( (item) ->  # second user filter
         #console.info('filter2')
         true
     )
- 
+    ###
     # REGISTER HANDLERS
- 
-    @job.uploader.bind('afteraddingfile', (event, item) ->
-     #console.info('After adding a file', item)
-     if ( !item.isError )
-      item.formData[0]['alias'] = item.alias
-      #console.log(item)
-      item.progress = 0
-      item.upload()
-    )
- 
-    @job.uploader.bind('whenaddingfilefailed', (event, item) =>
-        #console.info('When adding a file failed', item)
-        @notifications.error('Failed to add the file ' + item.file.name +  '.') 
-    )
- 
+    @job.uploader.bind('cancel', cancelCreativeBrief)
+    @job.uploader.bind('error', errorCreativeBrief)
+    @job.uploader.bind('afteraddingfile', afterAddingFile)
+    @job.uploader.bind('whenaddingfilefailed', whenAddingFileFailed) 
+    @job.uploader.bind('success', successCreativeBrief)
+    ###
     @job.uploader.bind('afteraddingall', (event, items) ->
-        #console.info('After adding all files', items)
+        console.info('After adding all files', items)
     )
  
     @job.uploader.bind('beforeupload', (event, item) ->
-        #console.info('Before upload', item)
+        console.info('Before upload', item)
     )
  
     @job.uploader.bind('progress', (event, item, progress) ->
-        #console.info('Progress: ' + progress, item)
-    )
- 
-    @job.uploader.bind('success', (event, xhr, item, response) =>
-        #console.info('Success', xhr, item, response)
-        if !@job.creativeBrief
-          @job.creativeBrief = []
-          
-        index = @job.creativeBrief.indexOf(item.file.name)
-        if ( index == -1 )
-         @job.creativeBrief.push(item.file.name)
-         item.addedToBrief = true
-         @notifications.success('Your file was successfully uploaded!')
-    )
- 
-    @job.uploader.bind('cancel', (event, xhr, item) =>
-        #console.info('Cancel', xhr, item)
-        @removeCreativeBriefItem(item)
-    )
- 
-    @job.uploader.bind('error', (event, xhr, item, response) =>
-        #console.info('Error', xhr, item, response)
-        
-        msg = item.file.name + ' failed to upload.';
-        if response?
-         if response.answer?
-          msg = msg + ' ' + response.answer
-         else
-          msg = msg + ' ' + response
-         
-        @notifications.error( msg )
-        @removeCreativeBriefItem(item)
+        console.info('Progress: ' + progress, item)
     )
  
     @job.uploader.bind('complete', (event, xhr, item, response) ->
-        #console.info('Complete', xhr, item, response)
+        console.info('Complete', xhr, item, response)
     )
  
     @job.uploader.bind('progressall', (event, progress) ->
-        #console.info('Total progress: ' + progress)
+        console.info('Total progress: ' + progress)
     )
  
     @job.uploader.bind('completeall', (event, items) ->
-        #console.info('Complete all', items)
+        console.info('Complete all', items)
     )
-   
+    ###
+  console.log @currentMedium
   
-  removeItem: (item) ->
+  removeItem: (item, type) ->
    item.remove()
-   @removeCreativeBriefItem(item)
+   @removeItemFromData(item, type)
   
-  removeCreativeBriefItem: (item) ->
-   if @job.creativeBrief? and item.addedToBrief
-    index = @job.creativeBrief.indexOf(item.file.name)
-    if ( index > -1 )
-     @job.creativeBrief.splice(index,1)
-     
+  removeItemFromData: (item, type) ->
+   if type == 'creativeBrief'
+    data = @job.creativeBrief
+   if type == 'currentMedium.photo'
+    data = @currentMedium.data.photo
+    
+   if data and item.addedToData
+    index = data.indexOf(item.file.name)
+    if index > -1
+     data.splice(index,1)
+   
    if item.isUploaded and item.isSuccess
     success = ->
     @promise = @urlService.deleteItemFromServer(item, @job.sessionId)
     @promise.then success, (response) => @notifications.error(response)
-   # @http
-  
-  deleteItemFromServer: (item) ->
-   #@http.delete('http://mh-item.file.name)
   
   keyToHeader: (key) ->
    if key? & key != ''

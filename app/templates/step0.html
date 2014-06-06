@@ -143,6 +143,7 @@
    
    <div class='row'>
     <div class='columns small-12'>
+    
      <label>Attach Creative Brief</label>
      <table x-ng-show='req.job.uploader.queue.length > 0' class='minimal noAlternateColor' style='width: 100%'>
       <tr x-ng-repeat='item in req.job.uploader.queue'>
@@ -159,7 +160,7 @@
         <span ng-show="item.isError || item.isCancel" style='color: {{ item.isError ? "red" : "orange" }}'><i x-ng-click='item.upload()' class="foundicon-refresh"></i></span>
        </td>
        <td style='text-align: center; vertical-align: middle; font-size: 125%'>
-        <span><i x-ng-click='req.removeItem(item)' class='foundicon-trash'></i></span>
+        <span><i x-ng-click='req.removeItem(item, "creativeBrief")' class='foundicon-trash'></i></span>
        </td>
       </tr>
      </table>

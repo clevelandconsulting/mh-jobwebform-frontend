@@ -170,7 +170,7 @@ describe "jobrequest controller", ->
    Then -> expect(@subject.job.data.collateral['print-digital']).toEqual(@expectedResult)
    Then -> expect(@location.path()).toEqual('/collateral')
  
- describe "removeCreativeBriefItem ()", ->
+ describe "removeItemFromData ()", ->
   Given ->
    @file = "anything"
    @anotherFile = 'anything else'
@@ -182,9 +182,10 @@ describe "jobrequest controller", ->
      @q.reject @apiResponse
    spyOn(@mockUrlService,"deleteItemFromServer").andCallFake @apiResponseFunction
    
-  describe "when added to the creative brief", ->
+  describe "when added to data for creative brief", ->
    Given ->
-    @item = {addedToBrief:true, file: {name: @file} }
+    @type = 'creativeBrief'
+    @item = {addedToData:true, file: {name: @file} }
     @subject.job.sessionId = 'anything'
     
    describe "and file is uploaded and deleted unsuccessfully", ->
@@ -195,7 +196,7 @@ describe "jobrequest controller", ->
      spyOn(@mockNotifications,"error")
      
     When -> 
-     @subject.removeCreativeBriefItem(@item)
+     @subject.removeItemFromData(@item, @type)
      @scope.$apply()
      
     Then -> expect(@mockUrlService.deleteItemFromServer).toHaveBeenCalledWith(@item, @subject.job.sessionId)
@@ -203,7 +204,7 @@ describe "jobrequest controller", ->
    
    describe "and file is not uploaded", ->
     Given -> @item['isUploaded'] = false
-    When -> @subject.removeCreativeBriefItem(@item)
+    When -> @subject.removeItemFromData(@item, @type)
     Then -> expect(@mockUrlService.deleteItemFromServer).not.toHaveBeenCalledWith(@item, @subject.job.sessionId)
    
    describe "and the file is in the brief", ->
@@ -211,7 +212,7 @@ describe "jobrequest controller", ->
      @subject.job.creativeBrief = [@file,@anotherFile]
      @expectedBrief = [@anotherFile]
    
-    When -> @subject.removeCreativeBriefItem(@item)
+    When -> @subject.removeItemFromData(@item, @type)
     Then -> expect(@subject.job.creativeBrief).toEqual(@expectedBrief)
   
    describe "and the file is not in the brief", ->
@@ -219,8 +220,52 @@ describe "jobrequest controller", ->
      @subject.job.creativeBrief = [@anotherFile]
      @expectedBrief = [@anotherFile]
     
-    When -> @subject.removeCreativeBriefItem(@item)
+    When -> @subject.removeItemFromData(@item, @type)
     Then -> expect(@subject.job.creativeBrief).toEqual(@expectedBrief)
+ 
+ 
+  describe "when added to data for current medium photo", ->
+   Given ->
+    @type = 'currentMedium.photo'
+    @subject.currentMedium = {data:{}}
+    @item = {addedToData:true, file: {name: @file} }
+    @subject.job.sessionId = 'anything'
+    
+   describe "and file is uploaded and deleted unsuccessfully", ->
+    Given -> 
+     @item['isUploaded'] = @item['isSuccess'] = true
+     @succeedPromise = false
+     @httpBackend.whenGET(/listdata*/).respond(200,{})
+     spyOn(@mockNotifications,"error")
+     
+    When -> 
+     @subject.removeItemFromData(@item, @type)
+     @scope.$apply()
+     
+    Then -> expect(@mockUrlService.deleteItemFromServer).toHaveBeenCalledWith(@item, @subject.job.sessionId)
+    Then -> expect(@mockNotifications.error).toHaveBeenCalledWith(@apiResponse)
+   
+   describe "and file is not uploaded", ->
+    Given -> @item['isUploaded'] = false
+    When -> @subject.removeItemFromData(@item, @type)
+    Then -> expect(@mockUrlService.deleteItemFromServer).not.toHaveBeenCalledWith(@item, @subject.job.sessionId)
+   
+   describe "and the file is in the photos", ->
+    Given ->
+     @subject.currentMedium.data.photo = [@file,@anotherFile]
+     @expectedBrief = [@anotherFile]
+   
+    When -> @subject.removeItemFromData(@item, @type)
+    Then -> expect(@subject.currentMedium.data.photo).toEqual(@expectedBrief)
+  
+   describe "and the file is not in the brief", ->
+    Given ->
+     @subject.currentMedium.data.photo = [@anotherFile]
+     @expectedBrief = [@anotherFile]
+    
+    When -> @subject.removeItemFromData(@item, @type)
+    Then -> expect(@subject.currentMedium.data.photo).toEqual(@expectedBrief)
+
  
  describe "keyToHeader()", ->
   Given -> 
