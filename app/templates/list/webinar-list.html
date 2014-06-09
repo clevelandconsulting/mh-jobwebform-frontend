@@ -8,7 +8,7 @@
         </thead>
         <tbody>
          <tr x-ng-repeat='c in req.job.data.collateral["webinar"]'>
-          <td>{{c}}</td><td></td><td></td><td><a x-ng-click='req.goToMedium("webinar",$index)'>Edit</a></td>
+          <td>{{c.data.deploymentDate}}</td><td>{{c.data.startTime}}</td><td>{{c.data.endTime}}</td><td><a x-ng-click='req.goToMedium("webinar",$index)'>Edit</a></td>
          </tr>
         </tbody>
         <tfoot>

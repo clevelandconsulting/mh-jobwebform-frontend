@@ -11,6 +11,7 @@ class urlService
    results = 'Your job was successfully posted.'
    d.resolve results
   errorFn = (response) =>
+   message = response
    switch response.status
     when 500 then message = "The server gave an error."
     when 401 then message = "This form is not authorized to post."
