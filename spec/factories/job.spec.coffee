@@ -20,6 +20,17 @@ describe "job", ->
  Then -> expect(@subject.data.collateral).toEqual({})
  Then -> expect(@subject.data.requestDate).toEqual(@expectedDate)
  
+ describe "Data()", ->
+  Given ->
+   @data = {test: 'test data'}
+   @collateral = { 
+    'email': [
+     { type: 'email', useFieldMarketing:true,uploader:{},data:@data}
+    ]
+   }
+   @subject.data = {'test':'test1', collateral:@collateral}
+   @expectedData = {'test':'test1',collateral:'test'}
+ 
  describe "isValidForSubmission()", ->
   Given -> 
    @foo = 'foo'

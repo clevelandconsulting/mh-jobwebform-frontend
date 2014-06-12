@@ -213,6 +213,9 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
   
   addCurrentMedium: ->
    if @currentMedium?
+    #remove the uploader if there is any.
+    if @currentMedium.uploader?
+     @currentMedium.uploader = undefined
     @job.addToCollateral(@currentMedium,@getIndexAndMediumType()[0])
   
   getIndexAndMediumType: ->
