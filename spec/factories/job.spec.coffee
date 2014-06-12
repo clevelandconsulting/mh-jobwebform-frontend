@@ -19,18 +19,7 @@ describe "job", ->
  Then -> expect(@subject.mediums).toEqual({})
  Then -> expect(@subject.data.collateral).toEqual({})
  Then -> expect(@subject.data.requestDate).toEqual(@expectedDate)
- 
- describe "Data()", ->
-  Given ->
-   @data = {test: 'test data'}
-   @collateral = { 
-    'email': [
-     { type: 'email', useFieldMarketing:true,uploader:{},data:@data}
-    ]
-   }
-   @subject.data = {'test':'test1', collateral:@collateral}
-   @expectedData = {'test':'test1',collateral:'test'}
- 
+  
  describe "isValidForSubmission()", ->
   Given -> 
    @foo = 'foo'
@@ -74,29 +63,51 @@ describe "job", ->
    describe "and multiple collateral", ->
     Given ->
      @subject.multipleCollateral = 'yes'
-     @subject.data.mediums[@foo] = true
-     @subject.data.mediums[@foo2] = true
     
-    describe "that are all valid", ->
-     Given -> 
-      @subject.data.collateral[@foo] = @foo
-      @subject.data.collateral[@foo2] = @foo2
-     When -> @result = @subject.isValidForSubmission()
-     Then -> expect(@result).toBe(true)
+    describe "with 2 mediums", ->
+     Given ->
+      @subject.data.mediums[@foo] = true
+      @subject.data.mediums[@foo2] = true
+     
+     describe "that are all valid", ->
+      Given -> 
+       @subject.data.collateral[@foo] = @foo
+       @subject.data.collateral[@foo2] = @foo2
+      When -> @result = @subject.isValidForSubmission()
+      Then -> expect(@result).toBe(true)
+     
+     describe "that has one invalid", ->
+      Given -> 
+       @subject.data.collateral[@foo] = @foo
+       @subject.data.collateral[@foo2] = undefined
+      When -> @result = @subject.isValidForSubmission()
+      Then -> expect(@result).toBe(false)
+     
+     describe "that has all invalid", ->
+      Given -> 
+       @subject.data.collateral[@foo] = undefined
+       @subject.data.collateral[@foo2] = undefined
+      When -> @result = @subject.isValidForSubmission()
+      Then -> expect(@result).toBe(false)
     
-    describe "that has one invalid", ->
-     Given -> 
-      @subject.data.collateral[@foo] = @foo
-      @subject.data.collateral[@foo2] = undefined
-     When -> @result = @subject.isValidForSubmission()
-     Then -> expect(@result).toBe(false)
-    
-    describe "that has all invalid", ->
-     Given -> 
-      @subject.data.collateral[@foo] = undefined
-      @subject.data.collateral[@foo2] = undefined
-     When -> @result = @subject.isValidForSubmission()
-     Then -> expect(@result).toBe(false)
+    describe "with 1 medium", ->
+     Given ->
+      @subject.data.mediums[@foo] = true
+      @subject.data.mediums[@foo2] = false
+     
+     describe "that are all valid", ->
+      Given -> 
+       @subject.data.collateral[@foo] = @foo
+       @subject.data.collateral[@foo2] = undefined
+      When -> @result = @subject.isValidForSubmission()
+      Then -> expect(@result).toBe(true)
+     
+     describe "that has all invalid", ->
+      Given -> 
+       @subject.data.collateral[@foo] = undefined
+       @subject.data.collateral[@foo2] = undefined
+      When -> @result = @subject.isValidForSubmission()
+      Then -> expect(@result).toBe(false)
     
     describe "that has an undefined mediums", ->
      Given -> @subject.mediums = undefined 

@@ -7,7 +7,12 @@
         </thead>
         <tbody>
          <tr x-ng-repeat='c in req.job.data.collateral["print-digital"]'>
-          <td>{{c.data.deliveryDate}}</td><td>{{c.data.estimateQuantity}}</td><td><a x-ng-click='req.goToMedium("print-digital",$index)'>Edit</a></td>
+          <td>{{c.data.deliveryDate}}</td>
+          <td>{{c.data.estimateQuantity}}</td>
+          <td>
+           <button class='small radius' x-ng-click='req.goToMedium("print-digital",$index)'>Edit</button>&nbsp;
+           <button class='small radius alert' x-ng-click='req.deleteCollateral("print-digital",$index)'>Delete</button>
+          </td>
          </tr>
         </tbody>
         <tfoot>

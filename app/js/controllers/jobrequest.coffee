@@ -10,10 +10,21 @@
 ###
 
 
-angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$scope', '$routeParams', '$fileUploader', 'urlService',
+angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$scope', '$routeParams', '$fileUploader', '$window', 'urlService',
  class jobRequestController
-  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams, @fileUploader, @urlService) ->
+  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams, @fileUploader, @window, @urlService) ->
    @currentMedium = @getCurrentMedium()
+   @window.scrollTo(0,0)
+   @window.onbeforeunload = (event) =>
+    message = 'Any unsubmitted data will be lost, are you sure you want to do this?'
+    console.log event
+    if (typeof event == 'undefined')
+     event = @window.event
+    if (event)
+     event.returnValue = message
+     
+    message
+   
    
    #pull out list services
    @mediumList = @listManager.mediumList

@@ -185,8 +185,8 @@ angular.module('app').factory 'job', ['rfc4122', (rfc4122) ->
      if !@mediums? or @mediums == '' or @mediums.length == 0
       result = false
      else
-      for key of @mediums
-       if !(@data.collateral[key]?)
+      for key, value of @mediums
+       if value && !(@data.collateral[key]?)
         result = false
    
    result

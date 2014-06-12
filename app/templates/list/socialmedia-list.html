@@ -7,7 +7,12 @@
         </thead>
         <tbody>
          <tr x-ng-repeat='c in req.job.data.collateral["socialmedia"]'>
-          <td>{{c.data.deploymentDate}}</td><td><a href='{{c.data.link}}' target='_blank'>{{c.data.link}}</a></td><td><a x-ng-click='req.goToMedium("socialmedia",$index)'>Edit</a></td>
+          <td>{{c.data.deploymentDate}}</td>
+          <td><a href='{{c.data.link}}' target='_blank'>{{c.data.link}}</a></td>
+          <td>
+           <button class='small radius' x-ng-click='req.goToMedium("socialmedia",$index)'>Edit</button>&nbsp;
+           <button class='small radius alert' x-ng-click='req.deleteCollateral("socialmedia",$index)'>Delete</button>
+          </td>
          </tr>
         </tbody>
         <tfoot>

@@ -1,9 +1,12 @@
 $button-disabled-opacity: 0.3;
 $triangle-color: #ff0000;
+$button-sml: 6/16*1rem;
 $body-font-family: 'Aurm Sans', Arial, sans-serif !default;
 
 @import "foundation.scss";
 @import "general_enclosed_foundicons.scss";
+
+
 
 .container {
  margin-top: 5px;
@@ -100,6 +103,10 @@ $body-font-family: 'Aurm Sans', Arial, sans-serif !default;
 
 .medium {
   font-size: 85%;
+}
+
+.full {
+ width: 100%;
 }
 
 table.noBorder {

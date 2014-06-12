@@ -57,7 +57,7 @@
      <label>Identify email list sources</label>
      <select-list x-ng-model='req.currentMedium.data.listSources' items='req.emailListSourceList.items'></select-list>
     </div>
-    <div class='columns small-4' x-ng-show='req.currentMedium.data.listSources=="Other"'>
+    <div class='columns small-4' x-ng-show='req.currentMedium.hasElement(req.currentMedium.data.listSources, "Other")'>
      <label>Other Details</label>
      <input x-ng-model='req.currentMedium.data.listSourceOther' type='text'>
     </div>
