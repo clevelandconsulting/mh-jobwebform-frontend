@@ -110,7 +110,7 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
        isUploaded: true,
        isSuccess: true
       }
-      item.remove = => @currentMedium.uploader.removeFromQueue(this);
+      item.remove = => @currentMedium.uploader.removeFromQueue(item);
       
       @currentMedium.uploader.queue.push(item);
      @currentMedium.uploader.progress = 100;
@@ -142,7 +142,7 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
        isUploaded: true,
        isSuccess: true
       }
-      item.remove = => @job.uploader.removeFromQueue(this);
+      item.remove = => @job.uploader.removeFromQueue(item);
       
       @job.uploader.queue.push(item);
      @job.uploader.progress = 100;

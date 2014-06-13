@@ -91,7 +91,7 @@
         <table x-ng-show='req.currentMedium.uploader.queue.length > 0' class='minimal noAlternateColor' style='width: 100%'>
          <tr x-ng-repeat='item in req.currentMedium.uploader.queue'>
           <td nowrap><strong>{{ item.file.name }}</strong></td>
-          <td ng-show="req.currentMedium.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+          <td ng-show="req.currentMedium.uploader.isHTML5 && item.file.size > 0" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
           <td ng-show="req.currentMedium.uploader.isHTML5" style='width: 100%; vertical-align: middle;'>
            <div class='small-12 progress success radius round {{ item.isError ? "alert" : "" }}' style='margin: 0'>
             <span class="meter" ng-style="{ 'width': item.progress + '%' }"></span>
@@ -114,7 +114,7 @@
          </div>
         </div>
         
-        <div ng-show='req.currentMedium.uploader.isHTML5 || req.currentMedium.uploader.queue.length > 0'>
+        <div ng-hide='req.currentMedium.uploader.isHTML5 || req.currentMedium.uploader.queue.length > 0'>
          <input ng-file-select type="file" />
         </div>
         
