@@ -171,6 +171,11 @@ div.header h1, div.header h2, div.header h3, div.header h4, div.header h5 {
  font-family: 'Vectipede', 'Arial'
 }
 
+p small {
+ color: gray;
+ line-height: 1.2em;
+}
+
 .foundicon-plus, .foundicon-checkmark {
   @include single-transition();
   color: $success-color;

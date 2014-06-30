@@ -220,6 +220,11 @@ describe "job", ->
    Then -> expect(@subject.data.product).toBe(@somedata)
    Then -> expect(@subject.product).toBe(@somedata)
   
+  describe 'productOther', ->
+   When -> @subject.productOther = @somedata
+   Then -> expect(@subject.data.productOther).toBe(@somedata)
+   Then -> expect(@subject.productOther).toBe(@somedata)
+  
   describe 'productValue', ->
    When -> @subject.productValue = @somedata
    Then -> expect(@subject.data.productValue).toBe(@somedata)
@@ -321,6 +326,26 @@ describe "job", ->
   
  describe "isFieldMarketing()", ->
   Given -> @subject.data = {}   
+  
+  describe "when form data has Yes", ->
+   Given -> @subject.fieldMarketing = 'Yes'
+   When -> @result = @subject.isFieldMarketing()
+   Then -> expect(@result).toBe(true)
+   
+  describe "when form data has yes", ->
+   Given -> @subject.fieldMarketing = 'yes'
+   When -> @result = @subject.isFieldMarketing()
+   Then -> expect(@result).toBe(true)
+  
+  describe "when form data has No", ->
+   Given -> @subject.fieldMarketing = 'No'
+   When -> @result = @subject.isFieldMarketing()
+   Then -> expect(@result).toBe(false)
+   
+  describe "when form data has no", ->
+   Given -> @subject.fieldMarketing = 'no'
+   When -> @result = @subject.isFieldMarketing()
+   Then -> expect(@result).toBe(false)
   
   describe "when form data has Sales Rep", ->
    Given -> @subject.fieldMarketing = 'Sales Rep'

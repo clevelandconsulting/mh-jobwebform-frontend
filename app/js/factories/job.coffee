@@ -49,11 +49,19 @@ angular.module('app').factory 'job', ['rfc4122', (rfc4122) ->
      
      if value.portfolio?
       @portfolio = value.portfolio
-     
+     else
+      @portfolio = ''
+      
      if value.discipline?
       @discipline = value.discipline
-    
+     else
+      @discipline = ''
+      
      return
+   
+   productOther:
+    get: -> @data.productOther
+    set: (value) -> @data.productOther = value
    
    productValue:
     get: -> @data.productValue
@@ -147,7 +155,7 @@ angular.module('app').factory 'job', ['rfc4122', (rfc4122) ->
   isFieldMarketing: ->
    if @fieldMarketing?
     f = @fieldMarketing.toLowerCase()
-    f == 'sales rep' || f == "consultant"
+    f == 'sales rep' || f == "consultant" || f == "yes"
    else
     false
   

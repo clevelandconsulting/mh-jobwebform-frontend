@@ -23,17 +23,23 @@
      <div class='row'>
       <div class='columns small-12'>
       
-       <div class="row" ng-class="{ 'error' : jobform.fieldMarketingSR.$invalid && jobform.fieldMarketingCN.$invalid && jobform.fieldMarketingN.$invalid && ( !jobform.fieldMarketingSR.$pristine || !jobform.fieldMarketingCN.$pristine || !jobform.fieldMarketingN.$pristine || req.submitted ) }">
+       <div class="row" ng-class="{ 'error' : jobform.fieldMarketingYes.$invalid && jobform.fieldMarketingNo.$invalid && ( !jobform.fieldMarketingYes.$pristine || !jobform.fieldMarketingNo.$pristine || req.submitted ) }">
         <div class="columns small-6" ng-class='{{ngClass}}'>
          <label>Is this a Sales Rep's or Consultant's Request?*</label>
         </div>
         <div class="columns small-6">
+         <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingYes" id="fieldMarketingYes" value="yes" required />
+         <label for="fieldMarketingYes">Yes</label>
+         <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingNo" id="fieldMarketingNo" value="no" required />
+         <label for="fieldMarketingNo">No</label>
+         <!--
          <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingSR" id="fieldMarketingSR" value="sales rep" required />
          <label for="fieldMarketingSR">Sales Rep</label>
          <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingCN" id="fieldMarketingCN" value="consultant" required />
          <label for="fieldMarketingCN">Consultant</label>
          <input type="radio" x-ng-model="req.job.fieldMarketing" name="fieldMarketingN" id="fieldMarketingN" value="neither" required />
          <label for="fieldMarketingN">Neither</label>
+         -->
         </div>
        </div>
        
@@ -43,8 +49,18 @@
      <div class='row'>
       <div class='columns small-12' ng-class="{ 'error' : jobform.product.$invalid && ( !jobform.product.$pristine || req.submitted ) }">
        <label>Identify Product*</label>
+       <div x-ng-show='req.job.productValue=="Other"' class='row'>
+        <div class='columns small-6'>
+         <select type='text' name='product' required x-ng-model='req.job.product' x-ng-options='product as product.name group by product.discipline for product in req.productList.items | orderBy:["discipline","name"]' ><option value=''>Select Product</option></select>
+        </div>
+        <div class='columns small-6'>
+         <input type='text' name='productOther' placeholder="Other Description" x-ng-model='req.job.productOther' />
+        </div>
+       </div>
+       <div x-ng-hide='req.job.productValue=="Other"'>
        <!-- x-ng-options='product.value as product.name for product in req.productList.items' -->
-       <select type='text' name='product' required x-ng-model='req.job.product' x-ng-options='product as product.name group by product.discipline for product in req.productList.items | orderBy:["discipline","name"]' ><option value=''>Select Product</option></select>
+        <select type='text' name='product' required x-ng-model='req.job.product' x-ng-options='product as product.name group by product.discipline for product in req.productList.items | orderBy:["discipline","name"]' ><option value=''>Select Product</option></select>
+       </div>
        <small class='error' ng-show="jobform.product.$invalid && ( !jobform.product.$pristine || req.submitted )">Please select a product from the list</small>
       </div>
      </div>

@@ -8,10 +8,13 @@
        <label>Deployment Date</label>
        <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' />
       </div>
-      <div class='columns small-1'></div>
       <div class='columns small-4'>
        <label>Campaign End Date</label>
        <input type='date' x-ng-model='req.currentMedium.data.campaignEndDate' />
+      </div>
+      <div class='columns small-4'>
+       <label>&nbsp;</label>
+       <p><small>*This date is the forms related to the job are no longer active. ROI is also no longer calculated.</small></p>
       </div>
      </div>
      
@@ -62,14 +65,14 @@
      <input x-ng-model='req.currentMedium.data.listSourceOther' type='text'>
     </div>
    </div>
-   
+   <!--
    <div class='row'>
     <div class='columns small-12'>
      <label>Identify other associated marketing collateral running in conjunction with this email.</label>
      <textarea x-ng-model='req.currentMedium.data.otherCollateral' rows='6'></textarea>
     </div>
    </div>
-   
+   -->
    <div class='row' x-ng-show='req.currentMedium.useFieldMarketing'>
     <div class='columns small-12'>
      <div class='panel'>

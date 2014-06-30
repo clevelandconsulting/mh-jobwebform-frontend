@@ -4,14 +4,23 @@
     
     
      <div class='row'>
-      <div class='columns small-12'>
-       <label>Deployment Date</label>
-       <div class='small-4'>
-        <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' style='margin-bottom: 0'/>
-       </div>
-       <p><small>*If left blank, a date will be selected for deployment</small></p>
+       <div class='columns small-12'>
+        <div class='small-4'>
+         <label>Deployment Date</label>
+         <input type='date' x-ng-model='req.currentMedium.data.deploymentDate' style='margin-bottom: 0'/>
+        </div>
+        <p><small>*If left blank, a date will be selected for deployment</small></p>
       </div>
-      
+     </div>
+     
+     <div class='row'>
+      <div class='columns small-12'>
+       <input type="radio" x-ng-model="req.currentMedium.data.mediaLength" name="mediaLengthOngoing" id="mediaLengthOngoing" value="ongoing advertisement" required />
+       <label for="mediaLengthOngoing">Ongoing Advertisement</label>
+       <input type="radio" x-ng-model="req.currentMedium.data.mediaLength" name="mediaLengthSingle" id="mediaLengthSingle" value="single communication" required />
+       <label for="mediaLengthSingle">Single Communication</label>
+       <p><small style='color: gray; font-size:0.6em;'>*Ongoing advertisement is a paid social media ad spanning multiple days. A single communication is a discreet one-time communication that might be distributed across mulitple channels.</small></p>
+      </div>
      </div>
      
      <div class='row'>
