@@ -107,14 +107,14 @@
           </td>
          </tr>
         </table>
-        <div ng-show="req.currentMedium.uploader.isHTML5 && req.currentMedium.uploader.queue.length == 0">
+        <div ng-show="req.currentMedium.uploader.isHTML5 && req.currentMedium.uploader.queue.length == 0 && !req.basicFileInput">
          <!-- 3. ng-file-over | ng-file-over="className" -->
          <div class="drop-zone-panel round radius" ng-file-over='drop-zone-hover-panel'>
              Drag Your Files Here To Upload
          </div>
         </div>
         
-        <div ng-hide='req.currentMedium.uploader.isHTML5 || req.currentMedium.uploader.queue.length > 0'>
+        <div ng-hide='(req.currentMedium.uploader.isHTML5 || req.currentMedium.uploader.queue.length > 0) && !req.basicFileInput'>
          <input ng-file-select type="file" />
         </div>
         

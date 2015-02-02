@@ -10,14 +10,23 @@
 ###
 
 
-angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$scope', '$routeParams', '$fileUploader', '$window', 'urlService',
+angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobService', 'printdigital', 'email', 'micrositesplash', 'socialmedia', 'video', 'webinar', 'notifications', '$location', '$scope', '$routeParams', '$fileUploader', '$window', 'urlService', 'deviceDetector'
  class jobRequestController
-  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams, @fileUploader, @window, @urlService) ->
+  constructor: (@listManager, @job, @printdigital, @email, @micrositesplash, @socialmedia, @video, @webinar, @notifications, @location, @scope, @routeParams, @fileUploader, @window, @urlService, @device) ->
+   #console.log @device
+   
+   if @device.raw.os.android || @device.raw.os.firefoxos || @device.raw.os.ios
+    @basicFileInput = true
+   else
+    @basicFileInput = false
+    
+   #console.log @basicFileInput
+   
    @currentMedium = @getCurrentMedium()
    @window.scrollTo(0,0)
    @window.onbeforeunload = (event) =>
     message = 'Any unsubmitted data will be lost, are you sure you want to do this?'
-    console.log event
+    #console.log event
     if (typeof event == 'undefined')
      event = @window.event
     if (event)
@@ -186,7 +195,7 @@ angular.module('app').controller 'jobrequestController', [ 'listManager', 'jobSe
         console.info('Complete all', items)
     )
     ###
-  console.log @currentMedium
+  #console.log @currentMedium
   
   removeItem: (item, type) ->
    item.remove()

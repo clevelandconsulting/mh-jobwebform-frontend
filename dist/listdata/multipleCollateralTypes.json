@@ -1,0 +1,5 @@
+[
+    {"name":"Campaign - multiple collateral needed to support a marketing effor over a specific period of time", "value": "campaign"},
+    {"name":"Event - mutiple collateral needed to support a corporate presence at a designated location", "value": "event"},
+    {"name":"Package - Multiple collateral needed to support a sample build.", "value": "package"}
+]

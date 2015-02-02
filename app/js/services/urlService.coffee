@@ -1,6 +1,9 @@
 class urlService
  constructor: (@$http, @$q) ->
-  @jobRequestPostURL = 'http://mh-jobwebform-backend.dev/index.php'
+  @jobRequestPostURL = 'http://23.21.222.201/mhe-backend/index.php'
+  #@jobRequestPostURL = 'http://mh-jobwebform-backend.dev/index.php'
+  #@jobRequestPostURL = '/'
+  
  
  postJobRequestData: (data, sessionId) ->
   #@$http.post(@jobRequestPostURL, data)

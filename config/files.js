@@ -20,7 +20,7 @@ module.exports = function(lineman) {
     },
     js: {
     	vendor: [
-    	    "vendor/bower/js-base64/base64.js",
+    	    //"vendor/bower/js-base64/base64.js",
     	    "vendor/bower/jquery/dist/jquery.js",
     	    "vendor/bower/toastr/toastr.js",
     	    "vendor/underscore/underscore.js",
@@ -31,7 +31,9 @@ module.exports = function(lineman) {
          "vendor/bower/autofill-event/src/autofill-event.js",
          "vendor/bower/angular-route/angular-route.js",
          "vendor/bower/angular-file-upload/angular-file-upload.js",
+         "vendor/bower/ng-device-detector/ng-device-detector.js",
          "vendor/bower/angular-uuid-service/uuid-svc.js",
+         "vendor/bower/angular-base64/angular-base64.js",
          "vendor/js/**/*.js"  //Note that this glob remains for traditional vendor libs
      ],
      specHelpers: [
